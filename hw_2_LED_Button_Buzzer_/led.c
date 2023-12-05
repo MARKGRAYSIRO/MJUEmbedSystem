@@ -12,7 +12,7 @@ int ledOnOff (int ledNum, int onoff){
     i = i << ledNum;
     ledValue = ledValue & (~i);
     if (onoff != 0) ledValue |= i;
-    wirte (fd, &ledValue, 4);
+    write (fd, &ledValue, 4);
 }
 
 int ledLibInit(void){
