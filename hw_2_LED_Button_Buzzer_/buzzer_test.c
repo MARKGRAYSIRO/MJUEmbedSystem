@@ -20,7 +20,7 @@ int main(void){
 
     buzzerPlaySong(1);
     printf("FREQUENCY 1 playing \r\n");
-    buzzerPlaySond(2);
+    buzzerPlaySong(2);
     sleep(1);
 
     printf("FREQUENCY 2 playing \r\n");
