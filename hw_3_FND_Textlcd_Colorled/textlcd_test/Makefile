@@ -1,6 +1,6 @@
 all: libMyPeri.a
 
-libMyperi.a: led.o button.o buzzer.o
+libMyPeri.a: led.o button.o buzzer.o
 	arm-linux-gnueabi-ar rc libMyperi.a led.o button.o buzzer.o 
 
 led.o: led.h led.c
@@ -14,3 +14,6 @@ buzzer.o: buzzer.c buzzer.h
 
 fnd.o: fnd.h fnd.c
 	arm-linux-gnueabi-gcc -c fnd.c -o fnd.o
+
+lcdtext.o: lcdtext.h lcdtext.c
+	arm-linux-gnueabi-gcc -c lcdtext.c -o lcdtext.o
