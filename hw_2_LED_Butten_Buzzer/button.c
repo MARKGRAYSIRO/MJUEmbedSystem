@@ -24,10 +24,22 @@ int buttonInit(void)
     return 1;
 }
 
-/*while(1){
+while(1){
+// Read from the input device node in blocking mode
+        ssize_t bytesRead = read(fd, &stEvent, sizeof(struct input_event));
 
-    (쓰레드 작성)
-    input device node에 대해 read 한다. blocking mode
-    read에 성공하면 = (버튼이 눌렸다.) stEvent를 messend 해준다.
+        if (bytesRead == sizeof(struct input_event)) {
+            // EV_KEY 이벤트가 발생했는지 확인(키 누름 or 뗌)
+            if (stEvent.type == EV_KEY) {
+                // 키가 눌렸는지 확인 (버튼 누름)
+                if (stEvent.value == 1) {
+                    // 버튼 누름 확인, 메시지 보내기
+                    struct msgbuf message;
+                    message.mtype = 1;
+                    message.mtext = "Button Pressed";   //메시지 내용
+                    msgsnd(msgID, &message, sizeof(struct msgbuf), 0);
+                }
+            }
+        }
+    
 }
-*/
