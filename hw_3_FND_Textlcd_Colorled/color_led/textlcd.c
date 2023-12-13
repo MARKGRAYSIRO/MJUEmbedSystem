@@ -14,7 +14,7 @@ typedef struct TextLCD_tag{
     char TextData[LINE_NUM][LINE_BUFF_NUM];
 }stTextLCD,*pStTextLCD;
 
-int lcdtextwrite(const char *str1, const char *str2, int lineFlag){
+int lcdtextwrite(const char *str1, const *str2, int lineFlag){
     unsigned int linenum = 0;
     stTextLCD stlcd;
     int fd;
