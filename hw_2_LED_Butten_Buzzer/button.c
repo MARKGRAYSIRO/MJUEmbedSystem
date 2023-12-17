@@ -14,85 +14,67 @@
 #define HAVE_TO_FIND_1     "N: Name=/"ecube-button\"\n"
 #define HAVE_TO_FIND_2     "H: Handlers=kbd event"
 
+//fd와 msgID를 전역 변수로 선언
+int fd;
+int msgID;
 pthread_t buttonTh_id;
-int flag = 0;
 
-int probeButtonPath(char *newPath){
-    int returnValue = 0;
-    int number = 0;
-    FLIE *fd = fopen(PROBE_FILE, "rt");
-    #define HAVE_TO_FIND_1 "N: Name=/"ecube-button\"\n"
-    #define HAVE_TO_FIND_2 "H: Handlers=kbd event"
-    while(!feof(fd)){
-        char tmpStr[200];
-        fgets(tmpStr, 200. fd);
-        if(strcmp(tmpStr, HAVE_TO_FIND_1) == 0){
-            printf("YES! I found!: %s\r\n", tmpStr);
-            returnValue = 1;
-        }
-        if((returnValue == 1)&&(strncasecmp(tmpStr, HAVE_TO_FIND_2, strlen(HAVE_TO_FIND_2)) == 0)){
-            printf("-->%s", tmpStr);
-            printf("\t%c\r\n",tmpStr[strlen(tmpStr)-3]);
-            number = tmpStr[strlen(tmpStr)-3] - '0';
-            //ascii charavter '0' - '9'
-            //to interger(0)
-            break;
-        }
-    }
-    fclose(fd);
-    if (returnValue == 1)
-    sprintf(newPath,"%s%d", INPUT_DEVICE_LIST, number);
-return returnValue;
+static void *buttonThFunc(void *arg);
+
+int probeButtonPath(char *buttonPath)
+{
+    //해당 함수 작성 필요
+    return 0;
 }
-
 int buttonInit(void)
 {
+    /********fd와 msgID를 지역변수(local variable)로 선언할 경우 이 부분 활성화****
+    int fd;     
+    int msgID;  
+    ***************************************************************/
+    char buttonPath[256];
+
     if (probeButtonPath(buttonPath) == 0 )
         return 0;
     fd=open (buttonPath, O_RDONLY);
-    flag = 0;
     msgID = msgget (MESSAGE_ID, IPC_CREAT|0666);
     pthread_create(&buttonTh_id, NULL, buttonThFunc, NULL);
     return 1;
 }
 
-// 이걸 사용하는 application에서는 msgid만 만들고 읽어 드리기만 하면 된다.
-void *buttonTHFunc(void *arg){
-    int readsize = 0;
+static void *buttonThFunc(void *arg)
+{
+    (void)arg;      //사용되지 않은 변수 경고 suppress
     struct input_event stEvent;
-    struct BUTTON_MSG_T button;
-    while(!flag){
-        readsize = read(fd, &stEvent, sizeof(stEvent));
-        // 읽을 때 까지 버튼이 눌릴 때 까지 기다린다.
-        if(readsize != sizeof(stEvent)){
-            continue;
-        }
-        // key_pad가 눌렸다.
-        if( stEvent.type == EV_KEY){
-            switch(stEvent.code){
-                case KEY_VOLUMEUP   : button.keyInput = 1;
-                case KEY_HOME       : button.keyInput = 2;
-                case KEY_SEARCH     : button.keyInput = 3;
-                case KEY_BACK       : button.keyInput = 4;
-                case KEY_MENU       : button.keyInput = 5;
-                case KEY_VOLUMEDOWN : button.keyInput = 6;
-            }
-        if( stEvent.value == 0) button.pressed = 0;
-        else                    button.pressed = 1;
-        }
-        button.messgeNum = 1;
-        if(msgsnd(msgID, &button, sizeof(botton)-8,0) == -1)
-        {
-            prinx`tf("megsend error!\r\n");
-            break;
-        }
 
-    }
+while(1){
+// Read from the input device node in blocking mode
+        ssize_t bytesRead = read(fd, &stEvent, sizeof(struct input_event));
+
+        if (bytesRead == sizeof(struct input_event)) {
+            // EV_KEY 이벤트가 발생했는지 확인(키 누름 or 뗌)
+            if (stEvent.type == EV_KEY) {
+                // 키가 눌렸는지 확인 (버튼 누름)
+                if (stEvent.value == 1) {
+                    struct BUTTON_MSG_T message;
+                    // 버튼 누름 확인, 메시지 보내기
+                    struct msgbuf message;
+                    message.mtype = 1;
+                    message.mtext = "Button Pressed";   //메시지 내용
+                    msgsnd(msgID, &message, sizeof(struct msgbuf), 0);
+                }
+            }
+        }
+    
+}
+return NULL;
 }
 
-int buttonExit(void){
-    close(fd); 
-    flag = 1; // 쓰레드 무한루프 종료
-    pthread_join(buttonTh_id, NULL); 
-    
+int buttonExit(void)
+{
+    // Implementation for cleaning up and exiting the button functionality
+    close(fd);
+    pthread_join(buttonTh_id, NULL);    //버튼 쓰레드 종료 대기
+
+    return 0;
 }
