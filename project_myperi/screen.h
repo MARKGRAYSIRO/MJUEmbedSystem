@@ -1,8 +1,19 @@
-// BMP File Structure (windows version 3)
+#ifndef _SCRREN_H_
+#define _SCRREN_H_
 
+/////////////
+//libbmp.h//
+////////////
+int read_bmp(char *filename, char **data, int *cols, int *rows);
+int close_bmp(void);
+
+///////////////////////
+//bitbmapFileFeader.h//
+//////////////////////
+//Bitmap Header.
 // File Header
-typedef struct {
-//    unsigned char   bfType;         // 2 byte
+typedef struct 
+{
     unsigned int    bfSize;         // 4 byte
     unsigned short  bfReserved1;    // 2 byte
     unsigned short  bfReserved2;    // 2 byte
@@ -10,7 +21,8 @@ typedef struct {
 } BITMAPFILEHEADER;
 
 // Image Header
-typedef struct {
+typedef struct 
+{
     unsigned int    biSize;             // 4 byte
     unsigned int    biWidth;            // 4 byte
     unsigned int    biHeight;           // 4 byte
@@ -25,17 +37,23 @@ typedef struct {
 } BITMAPINFOHEADER;
 
 // Color Table
-typedef struct {
-// windows version 3
+typedef struct 
+{
     unsigned char   rgbBlue;        // 1 byte
     unsigned char   rgbGreen;       // 1 byte
     unsigned char   rgbRed;         // 1 byte
     unsigned char   rgbReserved;    // 1 byte
 } RGBQUAD;
-int bmp_read (char *fn);
-int bmp_read2 (char *fn);
+
 // Pixel Data
-typedef struct {
+typedef struct 
+{
     BITMAPINFOHEADER    bmiHeader;
     RGBQUAD             bmiColors[1];
 } BITMAPINFO;
+
+#define BIT_VALUE_24BIT   24
+
+
+
+#endif
