@@ -11,7 +11,6 @@ int main(void) {
 
     while (1) {
         msgrcv(msgID, &recvMsg, sizeof(recvMsg) - sizeof(long int), 0, 0);
-        printf("%d, %d",recvMsg.x, recvMsg.y);
         if (recvMsg.keyInput == 999 && recvMsg.pressed == 1) {
             if (recvMsg.x <= 120) {
                 printf("%d, %d",recvMsg.x, recvMsg.y);
@@ -29,9 +28,9 @@ int main(void) {
                 printf("%d, %d",recvMsg.x, recvMsg.y);
                 printf("Answer 3 touched!\r\n");
             }
-            /*else if (recvMsg.y > 130 && recvMsg.y <= 140) {
+            else if (recvMsg.y > 130 && recvMsg.y <= 140) {
                 printf("Answer 4 touched!\r\n");
-            }*/
+            }
             else {
                 printf("Out of bounds touch: X=%d, Y=%d\r\n", recvMsg.x, recvMsg.y);
             }
