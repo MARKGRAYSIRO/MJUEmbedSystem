@@ -2,10 +2,12 @@
 #include <stdlib.h>
 
 int main() {
+    /*******Read a set of values (replace this with your actual method of reading values)****/
     // Assuming temperature values are stored as strings
     const char* temp1 = "22.500";
     const char* temp2 = "22.562";
     const char* temp3 = "22.312";
+    /****************************************************************************************/
 
     // Convert strings to floating-point numbers
     float temp1_float = strtof(temp1, NULL);
