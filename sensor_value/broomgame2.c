@@ -68,7 +68,9 @@ int main() {
         x = gyro[0];
         y = gyro[1];
 
-        double angle = custom_atan2(y, x);
+        double result = custom_atan2(y, x);
+        double angle = to_degrees(result);
+
 
         // Define the position on the Cartesian system
         // Divide area by degrees (15 degrees per area)
