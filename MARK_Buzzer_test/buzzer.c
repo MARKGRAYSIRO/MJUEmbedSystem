@@ -6,15 +6,20 @@
 #include <dirent.h>
 #include "buzzer.h"
 
-#define MAX_SCALE_STEP          17
+#define MAX_SCALE_STEP          18
 #define BUZZER_BASE_SYS_PATH    "/sys/bus/platform/devices/peribuzzer."
 #define BUZZER_ENABLE_NAME      "enable"
 #define BUZZER_FREQUENCY_NAME   "frequency"
 char gBuzzerBaseSysDir[128];
 const int musicScale[MAX_SCALE_STEP] =
-{
-    247,262, 277,294,311,330,349,370,392,415,440,466,494,523,554,587,622
+{// 샌즈용 도 ~ 솔
+    262,277,294,311,330,349,370,392,415,440,466,494,523,554,587,622,233
 };
+//{ 해리포터 용
+//    247,262, 277,294,311,330,349,370,392,415,440,466,494,523,554,587,622,233
+//};
+
+
 
 int buzzerInit(void){
     char str[128];
