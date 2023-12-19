@@ -48,8 +48,8 @@ void readGyro(int* gyro) {
 
 int main() {
 
-    int numIterations = 100;    //iteration ÁöÁ¤(ÃßÃâ È½¼ö)
-    int totalTime = 10;         //ÃøÁ¤ ½Ã°£ ÁöÁ¤
+    int numIterations = 100;    //iteration ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ È½ï¿½ï¿½)
+    int totalTime = 10;         //ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½
     int delay = totalTime * 1000000 / numIterations;
 
     int gyro[3];
@@ -70,7 +70,8 @@ int main() {
 
         // Define the position on the Cartesian system
         // Divide area by degrees (15 degrees per area)
-        // °¢ if¹® ¾È¿¡ ºøÀÚ·ç »çÁø ÄÚµå »ðÀÔÇÒ °Í
+
+        printf("Angle: %f\n", angle);
 
         if (x > -1000 && x < 1000 && y > -1000 && y < 1000) {
             area = 0;
