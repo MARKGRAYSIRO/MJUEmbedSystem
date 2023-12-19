@@ -76,7 +76,7 @@ void fndCountdown(int count){
     fndDisp(i, 0b0000001);
     sleep(1);
     }
-    fndoff();
+    fndOff();
 }
 
 /*

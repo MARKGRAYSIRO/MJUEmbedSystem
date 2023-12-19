@@ -32,7 +32,7 @@ void read_bmp(char *filename, char **pDib, char **data, int *cols, int *rows)
         printf("ERROR\n");
         return;
     }
-
+    printf("%s\r\n",filename);
     // identify bmp file
     magicNum[0]   =   fgetc(fp);
     magicNum[1]   =   fgetc(fp);

@@ -1,6 +1,7 @@
 #ifndef __TEMPERATURE_H__
 
 int printTemp(void);
+float getTemp(void);
 
 int spi_init(char filename[40]);
 

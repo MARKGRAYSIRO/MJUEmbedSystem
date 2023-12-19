@@ -116,3 +116,32 @@ int printTemp(void) {
 
     return 0;
 }
+
+float getTemp(void) {
+    char *buffer;
+    int file;
+
+    file = spi_init("/dev/spidev1.0");
+    buffer = (char *)spi_read_lm74(file);
+    close(file);
+
+    if (buffer == NULL) {
+        printf("Error reading temperature\n");
+        return -1;
+    }
+
+    int raw_value = ((buffer[0] << 8) | buffer[1]) >> 3; // 상위 13비트 추출
+    float temperature;
+
+    if (raw_value & 0x1000) { // 13비트가 1이면 음수
+        // 상위 비트를 버린 후, 음수로 변환
+        temperature = -((float)((raw_value ^ 0x1FFF) + 1) / 16.0);
+    } else {
+        // 양수로 변환
+        temperature = (float)raw_value / 16.0;
+    }
+
+    printf("Temperature: %.3f°C\n", temperature);
+
+    return temperature;
+}

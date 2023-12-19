@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "temperature.h"
 #include "fnd.h"
 #include "accelMagGyro.h"
 #include "buzzer.h"
@@ -37,7 +38,7 @@ static int counterdownnum =0;
 void* read_jpg_start(void*arg);
 static void* start_on_onTHFunc(void*arg);
 static void* game1_startTHFunc(void*arg);
-static void* game1_endTHFunc(void*arg)l;
+static void* game1_endTHFunc(void*arg);
 static void* touchTHFunc1(void* arg);
 static void* touchTHFunc2(void* arg);
 static void* bmpTHFunc1(void* arg);
@@ -58,13 +59,15 @@ void* start_on_onTHFunc(void*arg){
 }
 
 void* game1_startTHFunc(void*arg){
-    whlie(start_on_off){ usleep(100); }
+    while(start_on_off){ usleep(100); }
+    bmp_read("./game1/game1_manu.bmp");
     //bmp_read(); game1 설명 bmp 파일 넣기
-    phtread_exit(NULL);
+    pthread_exit(NULL);
 }
 
 void* game1_endTHFunc(void*arg){
     //bmp_read(); 게임 끝 touch 이미지 띄우기
+    bmp_read("./game1/game1_done.bmp");
     while(start_on_off){ usleep(100); }
     
 }
@@ -192,7 +195,7 @@ void Question_1(void){
     pthread_create(&bmpTH_ID_1, NULL, bmpTHFunc1, NULL);
     pthread_detach(bmpTH_ID_1);
 
-    while(leave_Q != 0){ sleep(2);}
+    while(leave_Q != 0){ usleep(100000);}
        touchExit();
     sleep(1);
     pthread_cancel(touchTH_ID2);
@@ -224,9 +227,9 @@ void game1(void){
     //fnd counterdown 5초 생성하기.
     
     pthread_create(&buzzercountdownTH_ID, NULL, buzzercountdownTHFunc, NULL);
-    pthread_detach(buzzercountdownTH_ID, NULL);
+    pthread_detach(buzzercountdownTH_ID);
     pthread_create(&ledCountdownTH_ID, NULL, ledcountdownTHFunc, NULL);
-    pthread_detach(ledCountdownTH_ID, NULL);
+    pthread_detach(ledCountdownTH_ID);
     sleep(5);
 
     //5초 후 값 받아 드리기
@@ -241,7 +244,7 @@ void game1(void){
     tempSum = temp - (int)temp;
 
     // index 증가
-    if     (magSum <5000)                     F = F + 3;
+    if     (magSum <5000)                     H = H + 3;
     else if(magSum >= 5000 && magSum < 10000) R = R + 3;
     else if(magSum >= 10000 && magSum < 20000)G = G + 3;
     else                                      S = S + 3;
@@ -249,7 +252,7 @@ void game1(void){
     if     (tempSum < 24.0)                  S = S + 3;
     else if(tempSum>= 24.0 && tempSum < 25.5)G = G + 3;
     else if(tempSum>= 25.5 && tempSum < 27.0)R = R + 3;
-    else                                     F = F + 3;
+    else                                     H = H + 3;
 
 
     start_on_off = 1;
