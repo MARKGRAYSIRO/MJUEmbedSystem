@@ -2,13 +2,15 @@
 #include <unistd.h>
 #include "accelMagGyro.h"
 
-void readGyro() {
+
+
+void readGyro(int *gyro) {
     // Array to store gyroscope data (x, y, z)
-    int gyro[3];
+    
 
     if (getAccel(gyro) != 0) {
         printf("Failed to get gyroscope values.\n");
-        return -1;
+      
     }
 }
 
@@ -18,12 +20,14 @@ int main() {
     int totalTime = 10;         //측정 시간 지정
     int delay = totalTime * 1000000 / numIterations;
 
+    int gyro[3];
+
     int area, broomscore;
 
     // Loop through each set of coordinates
     for (int i = 1; i < numIterations; ++i) {
 
-        readGyro();
+        readGyro(gyro);
 
         // Extract x and y values from gyroscope data
         int x = gyro[0];
@@ -68,12 +72,13 @@ int main() {
             area = 8;
             ++broomscore;
         }
-        printf("Area : %d", area);
+        printf("Area : %d\n", area);
         usleep(delay);
     }
 
     //Game ended. Printing result
-    printf("\n\nScore : %d", broomscore);
+    printf("\n\nScore : %d\n", broomscore);
+    return 0;
 
 }
 
