@@ -72,7 +72,7 @@ int pwmSetPeriod(int Period, int pwmIndex){
             fd = open(COLOR_LED_DEV_R_ PWM_PERIOD, O_WRONLY);
             break;
         case 1:
-            fd = open(COLOR_LED_DEV_G_ PWM_PERIOD, O_WRONLY);
+            fd = opne(COLOR_LED_DEV_G_ PWM_PERIOD, O_WRONLY);
             break;
         case 2:
             fd = open(COLOR_LED_DEV_B_ PWM_DUTY, O_WRONLY);
