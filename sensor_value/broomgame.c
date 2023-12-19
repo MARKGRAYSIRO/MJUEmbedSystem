@@ -2,15 +2,9 @@
 #include <unistd.h>
 #include "accelMagGyro.h"
 
-
-
-void readGyro(int *gyro) {
-    // Array to store gyroscope data (x, y, z)
-    
-
+void readGyro(int* gyro) {
     if (getAccel(gyro) != 0) {
         printf("Failed to get gyroscope values.\n");
-      
     }
 }
 
@@ -21,8 +15,8 @@ int main() {
     int delay = totalTime * 1000000 / numIterations;
 
     int gyro[3];
-
-    int area, broomscore;
+    int area = 0;
+    int broomscore = 0;
 
     // Loop through each set of coordinates
     for (int i = 1; i < numIterations; ++i) {
@@ -36,19 +30,19 @@ int main() {
         // Define the position on the Cartesian system
         // Divide area by 3 x 3
         //각 if문 안에 빗자루 사진 코드 삽입할 것
-        
-        if (x > -1000 && x < 1000 || y > -1000 && y < 1000) {
+
+        if (x > -1000 && x < 1000 && y > -1000 && y < 1000) {
             area = 0;
         }
         else if (x > 1000 && y > 1000) {
             area = 1;
             ++broomscore;
         }
-        else if (x < 1000 && y > -1000 && y < 1000) {
+        else if (x > 1000 && y > -1000 && y < 1000) {
             area = 2;
             ++broomscore;
         }
-        else if (x < 1000 && y < -1000) {
+        else if (x > 1000 && y < -1000) {
             area = 3;
             ++broomscore;
         }
@@ -81,4 +75,3 @@ int main() {
     return 0;
 
 }
-
