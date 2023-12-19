@@ -57,7 +57,7 @@ int main() {
     int broomscore = 0;
     int x = 0;
     int y = 0;
-    double angle = custom_atan2(y, x);
+    
 
     // Loop through each set of coordinates
     for (int i = 1; i < numIterations; ++i) {
@@ -67,6 +67,8 @@ int main() {
         // Extract x and y values from gyroscope data
         x = gyro[0];
         y = gyro[1];
+
+        double angle = custom_atan2(y, x);
 
         // Define the position on the Cartesian system
         // Divide area by degrees (15 degrees per area)
