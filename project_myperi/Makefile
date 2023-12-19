@@ -1,8 +1,14 @@
-all: libMyPeri.a
+all: project.elf
 
-libMyPeri.a: led.o button.o buzzer.o fnd.o lcdtext.o colorled.o accelMagGyro.o touch.o temperature.o screen.o jpgAnimation.o
+
+project.elf: project.c libMyperi.a libjpeg.a libmylib.a
+	arm-linux-gnueabi-gcc project.c -o project.elf -lMyperi -L. -pthread -ljpeg -L. -lmylib
+
+libMyperi.a: jpeglib.h libfbdev.h led.o button.o buzzer.o fnd.o lcdtext.o colorled.o accelMagGyro.o touch.o temperature.o screen.o jpgAnimation.o
 	arm-linux-gnueabi-ar rc libMyperi.a led.o button.o buzzer.o fnd.o lcdtext.o colorled.o accelMagGyro.o touch.o temperature.o screen.o jpgAnimation.o
 
+jpgAnimation.o: jpgAnimation.c jpgAnimation.h jpeglib.h libfbdev.h
+	arm-linux-gnueabi-gcc -c -o jpgAnimation.o jpgAnimation.c 
 
 led.o: led.h led.c
 	arm-linux-gnueabi-gcc -c led.c -o led.o
@@ -34,8 +40,6 @@ temperature.o: temperature.h temperature.c
 screen.o: screen.c screen.h
 	arm-linux-gnueabi-gcc -c screen.c -o screen.o
 
-jpgAnimation.o: jpgAnimation.c jpgAnimation.h libfbdev.h jpeglib.h
-	arm-linux-gnueabi-gcc -c jpgAnimation.c -o jpgAnimation.o 
-
-clean : 
-	rm *.o
+clean:
+	rm -f *.o 
+	rm -f libMyperi.a

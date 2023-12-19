@@ -7,36 +7,67 @@
 #include "jpeglib.h"
 #include "jpgAnimation.h"
 
-static int flag;
-static int num = 6;
-static int fail = 0;
-
-int send_value(int value)
+void* read_jpg_start(void*arg)
 {
-	flag = value;
-	
-	return 0;
-	
-	}
-int send_fail(void)
-{
-	
-	if(fail == 1){
-	return 1;
-}
-	}	
-void* read_jpg (void*arg)
-{
-	
-	
-	
     int screen_width;
     int screen_height;
     int bits_per_pixel;
     int line_length;
     int cols = 0, rows = 0;
 	char *data;
+
+	if ( fb_init(&screen_width, &screen_height, &bits_per_pixel, &line_length) < 0 )
+	{
+		printf ("FrameBuffer Init Failed\r\n");
+	}
+	//Clear FB.
+	fb_clear();
 	
+	int i=0;
+	for (i=0; i<=60 ;i++)
+	{ 
+		usleep(10);
+		char filename[200]={0,};
+		snprintf(filename,200,"./startimage/c443084dcda64f79b561de8037a5ac034B78XvhapWdl2Gan-%d.jpeg",i*2);
+		//FileRead
+		int error=0;
+		struct jpeg_decompress_struct cinfo;
+		struct jpeg_error_mgr jerr;
+	 	cinfo.err = jpeg_std_error(&jerr);
+   		jpeg_create_decompress(&cinfo);
+		FILE *fp = fopen(filename, "rb");
+    	jpeg_stdio_src(&cinfo, fp);
+		jpeg_read_header(&cinfo, TRUE); 
+		//printf ("JPG %d by %d by %d, %d\n",
+		//	cinfo.image_width,cinfo.image_height,cinfo.num_components, cinfo.output_scanline);
+		cols = cinfo.image_width;
+		rows = cinfo.image_height;
+
+		data = malloc(cols*rows*3);
+		int currPoint = 0;
+		jpeg_start_decompress(&cinfo);
+		while(cinfo.output_scanline < cinfo.output_height) 
+		{
+			//printf ("CInfoScanlines:%d\r\n",cinfo.output_scanline);
+			char *tempPtr=&data[currPoint];
+			jpeg_read_scanlines(&cinfo, (JSAMPARRAY)&tempPtr, 1);
+			currPoint+=cols*3;
+		}
+		jpeg_finish_decompress(&cinfo);
+		jpeg_destroy_decompress(&cinfo);
+		fclose(fp);
+
+		fb_write_reverse(data, cols,rows);
+		free(data);
+	
+	}
+		pthread_exit(NULL);
+	}
+	
+
+
+
+	/*
 	//FrameBuffer init
     if ( fb_init(&screen_width, &screen_height, &bits_per_pixel, &line_length) < 0 )
 	{
@@ -228,3 +259,4 @@ void* read_jpg (void*arg)
 	fb_close();
 
 }
+*/
