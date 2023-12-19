@@ -33,7 +33,7 @@ typedef struct {
     unsigned char   rgbReserved;    // 1 byte
 } RGBQUAD;
 int bmp_read (char *fn);
-int bmp_read2 (char *fn);
+int bmp_read2 (char *fn,int x, int y);
 // Pixel Data
 typedef struct {
     BITMAPINFOHEADER    bmiHeader;

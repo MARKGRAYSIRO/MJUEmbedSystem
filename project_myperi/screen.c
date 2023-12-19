@@ -184,7 +184,7 @@ int bmp_read (char *fn)
     return 0;
 }
 
-int bmp_read2 (char *fn)
+int bmp_read2 (char *fn,int x, int y)
 {
     int i, j, k, t;
     int fbfd;
@@ -209,12 +209,12 @@ int bmp_read2 (char *fn)
     read_bmp(fn, &pData, &data, &cols, &rows);
     printf("Bitmap : cols = %d, rows = %d\n", cols, rows);
 
-    for(j = 0; j < rows; j++)
+    for(j = y; j < rows+y; j++)
     {
         k   =   j * cols * 3;
         t   =   (rows - 1 - j) * cols;
 
-        for(i = 0; i < cols; i++)
+        for(i = x; i < cols+x; i++)
         {
             b   =   *(data + (k + i * 3));
             g   =   *(data + (k + i * 3 + 1));
