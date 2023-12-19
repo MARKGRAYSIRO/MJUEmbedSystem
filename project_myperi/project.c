@@ -14,8 +14,10 @@
 #include "jpgAnimation.h"
 
 //쓰레드 id 정의
-static pthread_t start_read_jpgTH_ID; //f or jpeg files
+pthread_t start_read_jpgTH_ID; //f or jpeg files
 static pthread_t start_on_offTH_ID;   // for Q1 start
+static pthread_t game1_startTH_ID;    // for game1 start touch
+static pthread_t game1_endTH_ID;      // for game1 end   touch
 static pthread_t touchTH_ID1;         // for start touch
 static pthread_t touchTH_ID2;         // for skip next Question
 static pthread_t bmpTH_ID_1;          // frist  Question image
@@ -32,6 +34,8 @@ static int counterdownnum =0;
 //쓰레드 선언부
 void* read_jpg_start(void*arg);
 static void* start_on_onTHFunc(void*arg);
+static void* game1_startTHFunc(void*arg);
+static void* game1_endTHFunc(void*arg)l;
 static void* touchTHFunc1(void* arg);
 static void* touchTHFunc2(void* arg);
 static void* bmpTHFunc1(void* arg);
@@ -48,6 +52,18 @@ void* start_on_onTHFunc(void*arg){
         usleep(500000);
     }
     pthread_exit(NULL);
+}
+
+void* game1_startTHFunc(void*arg){
+    whlie(start_on_off){ usleep(100); }
+    //bmp_read(); game1 설명 bmp 파일 넣기
+    phtread_exit(NULL);
+}
+
+void* game1_endTHFunc(void*arg){
+    //bmp_read(); 게임 끝 touch 이미지 띄우기
+    while(start_on_off){ usleep(100); }
+    
 }
 
 void* touchTHFunc1(void* arg){
@@ -177,21 +193,55 @@ void Question_1(void){
  
 }
 
-void game1(void){
-    //bmp_read() -> 게임 설명 bmp 파일 삽입
+void game1(void){   
+    start_on_off = 1;
     counterdownnum = 5;
     int mag[3];
-    float tmp;
-    
+    float temp;
+
+    float magSum = 0;
+    float tempSum = 0;
+
+    // 화면 터치되면 다음 설명으로 넘어가기.
+    pthread_create(&touchTH_ID1, NULL, touchTHFunc1, NULL);
+    pthread_detach(touchTH_ID1);
+    pthread_create(&game1_startTH_ID, NULL, game1_startTHFunc, NULL);
+    pthread_join(game1_startTH_ID, NULL);
+        touchExit();
+    pthread_cancel(touchTH_ID1);
+
+    //5초 세기 카운터 다운
     pthread_create(&buzzercountdownTH_ID, NULL, buzzercountdownTHFunc, NULL);
     pthread_detach(buzzercountdownTH_ID, NULL);
     pthread_create(&ledCountdownTH_ID, NULL, ledcountdownTHFunc, NULL);
     pthread_detach(ledCountdownTH_ID, NULL);
+    
+    bmp_read("./gameimage/game1_ing.bmp");
+    //fnd counterdown 5초 생성하기.
+
     //5초 후 값 받아 드리기
     getMag(mag);
     temp = getTemp();
 
+    mag[0] = (mag[0]>0)? mag[0]: -mag[0];
+    mag[1] = (mag[1]>0)? mag[1]: -mag[1];
+    mag[2] = (mag[2]>0)? mag[2]: -mag[2];
 
+    magSum = mag[0] + mag[1] + mag[2];
+    tempSum = temp - (int)temp;
+
+    // index 증가
+
+    start_on_off = 1;
+    usleep(100);
+
+
+    pthread_create(&touchTH_ID1, NULL, touchTHFunc1, NULL);
+    pthread_detach(touchTH_ID1);
+    pthread_create(&game1_endTH_ID, NULL, game1_endTHFunc, NULL);
+    pthread_join(game1_endTH_ID, NULL);
+        touchExit();
+    pthread_cancel(touchTH_ID1);
 }
 
 void Question_2(void){
@@ -217,6 +267,7 @@ int main(void){
     start();
 
     Question_1();
+    game1();
 
     Question_2();
     printf("%d, %d, %d, %d", G, S, R, H);
