@@ -3,6 +3,7 @@
 
 int fndDisp(int num, int dotflg);
 int fndOff();
+void fndCountdown(int count);
 
 #define MAX_FND_NUM 6
 #define FND_DATA_BUFF_LEN (MAX_FND_NUM + 2)

@@ -70,6 +70,15 @@ int fndOff()
 	return 1;
 }
 
+void fndCountdown(int count){
+    int i;
+    for(i =count; i >=0 ; i--){
+    fndDisp(i, 0b0000001);
+    sleep(1);
+    }
+    fndoff();
+}
+
 /*
 int fndDisp(int num, int dotflag){
     int fd;

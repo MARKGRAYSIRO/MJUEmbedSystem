@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "fnd.h"
 #include "accelMagGyro.h"
 #include "buzzer.h"
 #include "led.h"
@@ -24,6 +25,7 @@ static pthread_t bmpTH_ID_1;          // frist  Question image
 static pthread_t bmpTH_ID_2;          // second Question image
 static pthread_t buzzercountdownTH_ID;
 static pthread_t ledCountdownTH_ID;
+static pthread_t fndCountdownTH_ID;
 
 //사용할 전역변수 정의
 static int G=0,S=0,H=0,R=0;
@@ -42,6 +44,7 @@ static void* bmpTHFunc1(void* arg);
 static void* bmpTHFunc2(void* arg);
 static void* buzzercountdownTHFunc(void*arg);
 static void* ledcountdownTHFunc(void*arg);
+static void* fndCountdownTHFunc(void*arg);
 
 //쓰래드 구현부
 void* start_on_onTHFunc(void*arg){
@@ -151,6 +154,11 @@ void* ledcountdownTHFunc(void *arg){
      pthread_exit(NULL);
 }
 
+void* fndcountdownTHFunc(void *arg){
+     fndCountdown(counterdownnum);
+     pthread_exit(NULL);
+}
+
 //최종실행파일 선언부
 static void start(void);
 static void Question_1(void);
@@ -211,13 +219,15 @@ void game1(void){
     pthread_cancel(touchTH_ID1);
 
     //5초 세기 카운터 다운
+    fndCountdown(5);
+    bmp_read("./gameimage/game1_ing.bmp");
+    //fnd counterdown 5초 생성하기.
+    
     pthread_create(&buzzercountdownTH_ID, NULL, buzzercountdownTHFunc, NULL);
     pthread_detach(buzzercountdownTH_ID, NULL);
     pthread_create(&ledCountdownTH_ID, NULL, ledcountdownTHFunc, NULL);
     pthread_detach(ledCountdownTH_ID, NULL);
-    
-    bmp_read("./gameimage/game1_ing.bmp");
-    //fnd counterdown 5초 생성하기.
+    sleep(5);
 
     //5초 후 값 받아 드리기
     getMag(mag);
@@ -231,6 +241,16 @@ void game1(void){
     tempSum = temp - (int)temp;
 
     // index 증가
+    if     (magSum <5000)                     F = F + 3;
+    else if(magSum >= 5000 && magSum < 10000) R = R + 3;
+    else if(magSum >= 10000 && magSum < 20000)G = G + 3;
+    else                                      S = S + 3;
+
+    if     (tempSum < 24.0)                  S = S + 3;
+    else if(tempSum>= 24.0 && tempSum < 25.5)G = G + 3;
+    else if(tempSum>= 25.5 && tempSum < 27.0)R = R + 3;
+    else                                     F = F + 3;
+
 
     start_on_off = 1;
     usleep(100);
@@ -267,6 +287,7 @@ int main(void){
     start();
 
     Question_1();
+    
     game1();
 
     Question_2();
