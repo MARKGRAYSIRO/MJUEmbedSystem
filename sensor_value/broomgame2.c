@@ -79,101 +79,126 @@ int main() {
 
         if (x > -1000 && x < 1000 && y > -1000 && y < 1000) {
             area = 0;
+            bmp_read("./gameimage/game2_start.bmp");
         }
         else if (0 <= angle && angle < 15) {
             area = 1;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (15 <= angle && angle < 30) {
             area = 2;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (30 <= angle && angle < 45) {
             area = 3;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (45 <= angle && angle < 60) {
             area = 4;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (60 <= angle && angle < 75) {
             area = 5;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (75 <= angle && angle < 90) {
             area = 6;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (90 <= angle && angle < 105) {
             area = 7;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (105 <= angle && angle < 120) {
             area = 8;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (120 <= angle && angle < 135) {
             area = 9;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (135 <= angle && angle < 150) {
             area = 10;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (150 <= angle && angle < 165) {
             area = 11;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (165 <= angle && angle < 180) {
             area = 12;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (180 <= angle && angle < 195) {
             area = 13;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (195 <= angle && angle < 210) {
             area = 14;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (210 <= angle && angle < 225) {
             area = 15;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (225 <= angle && angle < 240) {
             area = 16;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (240 <= angle && angle < 255) {
             area = 17;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (255 <= angle && angle < 270) {
             area = 18;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (270 <= angle && angle < 285) {
             area = 19;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (285 <= angle && angle < 300) {
             area = 20;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (300 <= angle && angle < 315) {
             area = 21;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (315 <= angle && angle < 330) {
             area = 22;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (330 <= angle && angle < 345) {
             area = 23;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         else if (345 <= angle && angle <= 360) {
             area = 24;
+            bmp_read("./gameimage/game2_start.bmp");
             ++broomscore;
         }
         printf("Area : %d\n", area);
@@ -181,7 +206,9 @@ int main() {
     }
 
     //Game ended. Printing result
-    printf("\n\nScore : %d\n", broomscore);
+    //printf("\n\nScore : %d\n", broomscore);
+    bmp_read("./gameimage/game2_start.bmp");
+
     return 0;
 
 }
