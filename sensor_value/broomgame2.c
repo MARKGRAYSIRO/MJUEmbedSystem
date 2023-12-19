@@ -3,6 +3,7 @@
 #include "accelMagGyro.h"
 
 #define PI 3.14159265358979323846
+
 double custom_atan(double x) {
     if (x > 1.0) {
         return PI / 2 - custom_atan(1 / x);
@@ -54,7 +55,9 @@ int main() {
     int gyro[3];
     int area = 0;
     int broomscore = 0;
-    double angle;
+    int x = 0;
+    int y = 0;
+    double angle = custom_atan2(y, x);
 
     // Loop through each set of coordinates
     for (int i = 1; i < numIterations; ++i) {
@@ -62,16 +65,12 @@ int main() {
         readGyro(gyro);
 
         // Extract x and y values from gyroscope data
-        int x = gyro[0];
-        int y = gyro[1];
+        x = gyro[0];
+        y = gyro[1];
 
         // Define the position on the Cartesian system
         // Divide area by degrees (15 degrees per area)
         //각 if문 안에 빗자루 사진 코드 삽입할 것
-
-        if (custom_atan2(y, x) < 0) {
-            custom_atan2(y, x) += 360.0;
-        }
 
         if (x > -1000 && x < 1000 && y > -1000 && y < 1000) {
             area = 0;
