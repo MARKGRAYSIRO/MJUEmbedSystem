@@ -19,8 +19,8 @@ fnd.o: fnd.h fnd.c
 lcdtext.o: lcdtext.h lcdtext.c
 	arm-linux-gnueabi-gcc -c lcdtext.c -o lcdtext.o
 
-colorled.o: colorled.h colorled.c
-	arm-linux-gnueabi-gcc -c colorled.c -o colorled.o
+colorled.o: colorled.h rainbow.c
+	arm-linux-gnueabi-gcc -c rainbow.c -o colorled.o
 
 accelMagGyro.o: accelMagGyro.h accelMagGyro.c
 	arm-linux-gnueabi-gcc -c accelMagGyro.c -o accelMagGyro.o
