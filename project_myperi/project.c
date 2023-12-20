@@ -44,6 +44,7 @@ static int counterdownnum =0;
 static int tmp=0;
 static char Question[10]={'x','x','x','x','x','x','x','x','x','x'};
 static int Total = 10;
+static char str1[17]="x  x  x  x", str2[17]="x  x  x  x";
 
 //쓰레드 선언부
 void* read_jpg_start(void*arg);
@@ -61,7 +62,7 @@ static void* bmpTHFunc1(void* arg);
 static void* bmpTHFunc2(void* arg);
 static void* buzzercountdownTHFunc(void*arg);
 static void* ledcountdownTHFunc(void*arg);
-static void* fndCountdownTHFunc(void*arg);
+static void* fndcountdownTHFunc(void*arg);
 static void* ledTwinkleTHFunc(void*arg);
 static void* textlcdTHFunc(void*arg);
 
@@ -496,71 +497,89 @@ void* touchTHFunc2(void* arg){
     while (1) {
         msgrcv(msgID2, &recvMsg2, sizeof(recvMsg2) - sizeof(long int), 0, 0);
         if (recvMsg2.keyInput == 999 && recvMsg2.pressed == 1) {
-                    if(Total<=10 && Total>5)     lcdtextwrite(str1,"",1);
-                    else if(Total<=5 && Total>0) lcdtextwrite("",str2,1);
 
             if (recvMsg2.x >= 267 && recvMsg2.x <=400 && recvMsg2.y >= 26 && recvMsg2.y <=574) {            
                G++; leave_Q--; 
                switch(Total){
-                case(10): Question[0] = '1';
-                case(9):  Question[1] = '1';
-                case(8):  Question[2] = '1';
-                case(7):  Question[3] = '1';
-                case(6):  Question[4] = '1';
-                case(5):  Question[5] = '1';
-                case(4):  Question[6] = '1';
-                case(3):  Question[7] = '1';
-                case(2):  Question[8] = '1';
-                case(1):  Question[9] = '1';
-               }
+                case(10): Question[0] = '1';  break;
+                case(9):  Question[1] = '1';  break;
+                case(8):  Question[2] = '1';  break;
+                case(7):  Question[3] = '1';  break;
+                case(6):  Question[4] = '1';  break;
+                case(5):  Question[5] = '1';  break;
+                case(4):  Question[6] = '1';  break;
+                case(3):  Question[7] = '1';  break;
+                case(2):  Question[8] = '1';  break;
+                case(1):  Question[9] = '1';  break;
+               }      snprintf(str1,17,"%c  %c  %c  %c  %c",Question[0],Question[1],Question[2],Question[3],Question[4]);
+                      snprintf(str2,17,"%c  %c  %c  %c  %c",Question[5],Question[6],Question[7],Question[8],Question[9]);
+                      printf("str1 : %c %c %c %c %c\r\nstr2 : %c %c %c %c %c\r\n",Question[0],Question[1],Question[2],Question[3],Question[4],Question[5],Question[6],Question[7],Question[8],Question[9]);
+                    usleep(10);
+                    if(Total<=10 && Total>5)     lcdtextwrite(str1,"",1);
+                    else if(Total<=5 && Total>0) lcdtextwrite("",str2,2);
                Total--;
             }
             else if (recvMsg2.x > 458 && recvMsg2.x <= 593 && recvMsg2.y >= 26 && recvMsg2.y <=574) {
                S++; leave_Q--;
                switch(Total){
-                case(10): Question[0] = '2';
-                case(9):  Question[1] = '2';
-                case(8):  Question[2] = '2';
-                case(7):  Question[3] = '2';
-                case(6):  Question[4] = '2';
-                case(5):  Question[5] = '2';
-                case(4):  Question[6] = '2';
-                case(3):  Question[7] = '2';
-                case(2):  Question[8] = '2';
-                case(1):  Question[9] = '2';
-               }
+                case(10): Question[0] = '2';  break;
+                case(9):  Question[1] = '2';  break;
+                case(8):  Question[2] = '2';  break;
+                case(7):  Question[3] = '2';  break;
+                case(6):  Question[4] = '2';  break;
+                case(5):  Question[5] = '2';  break;
+                case(4):  Question[6] = '2';  break;
+                case(3):  Question[7] = '2';  break;
+                case(2):  Question[8] = '2';  break;
+                case(1):  Question[9] = '2';  break;
+               }      snprintf(str1,17,"%c  %c  %c  %c  %c",Question[0],Question[1],Question[2],Question[3],Question[4]);
+                      snprintf(str2,17,"%c  %c  %c  %c  %c",Question[5],Question[6],Question[7],Question[8],Question[9]);
+                      printf("str1 : %c %c %c %c %c\r\nstr2 : %c %c %c %c %c\r\n",Question[0],Question[1],Question[2],Question[3],Question[4],Question[5],Question[6],Question[7],Question[8],Question[9]);
+                    usleep(10);
+                    if(Total<=10 && Total>5)     lcdtextwrite(str1,"",1);
+                    else if(Total<=5 && Total>0) lcdtextwrite("",str2,2);
                Total--;
             }
             else if (recvMsg2.x > 650 && recvMsg2.x <= 785 && recvMsg2.y >= 26 && recvMsg2.y <=574) {
                R++; leave_Q--;
                   switch(Total){
-                case(10): Question[0] = '3';
-                case(9):  Question[1] = '3';
-                case(8):  Question[2] = '3';
-                case(7):  Question[3] = '3';
-                case(6):  Question[4] = '3';
-                case(5):  Question[5] = '3';
-                case(4):  Question[6] = '3';
-                case(3):  Question[7] = '3';
-                case(2):  Question[8] = '3';
-                case(1):  Question[9] = '3';
-               }
+                case(10): Question[0] = '3';  break; 
+                case(9):  Question[1] = '3';  break;
+                case(8):  Question[2] = '3';  break;
+                case(7):  Question[3] = '3';  break;
+                case(6):  Question[4] = '3';  break;
+                case(5):  Question[5] = '3';  break;
+                case(4):  Question[6] = '3';  break;
+                case(3):  Question[7] = '3';  break;
+                case(2):  Question[8] = '3';  break;
+                case(1):  Question[9] = '3';  break;
+               }      snprintf(str1,17,"%c  %c  %c  %c  %c",Question[0],Question[1],Question[2],Question[3],Question[4]);
+                      snprintf(str2,17,"%c  %c  %c  %c  %c",Question[5],Question[6],Question[7],Question[8],Question[9]); 
+                      printf("str1 : %c %c %c %c %c\r\nstr2 : %c %c %c %c %c\r\n",Question[0],Question[1],Question[2],Question[3],Question[4],Question[5],Question[6],Question[7],Question[8],Question[9]);  
+                    usleep(10);
+                    if(Total<=10 && Total>5)     lcdtextwrite(str1,"",1);
+                    else if(Total<=5 && Total>0) lcdtextwrite("",str2,2);
                Total--;
             }
             else if (recvMsg2.x > 843 && recvMsg2.x <= 980 && recvMsg2.y >= 26 && recvMsg2.y <=574) {
                H++; leave_Q--;
                 switch(Total){
-                case(10): Question[0] = '4';
-                case(9):  Question[1] = '4';
-                case(8):  Question[2] = '4';
-                case(7):  Question[3] = '4';
-                case(6):  Question[4] = '4';
-                case(5):  Question[5] = '4';
-                case(4):  Question[6] = '4';
-                case(3):  Question[7] = '4';
-                case(2):  Question[8] = '4';
-                case(1):  Question[9] = '4';
-               }
+                case(10): Question[0] = '4';  break;
+                case(9):  Question[1] = '4';  break;
+                case(8):  Question[2] = '4';  break;
+                case(7):  Question[3] = '4';  break;
+                case(6):  Question[4] = '4';  break;
+                case(5):  Question[5] = '4';  break;
+                case(4):  Question[6] = '4';  break;
+                case(3):  Question[7] = '4';  break;
+                case(2):  Question[8] = '4';  break;
+                case(1):  Question[9] = '4';  break;
+               }      snprintf(str1,17,"%c  %c  %c  %c  %c",Question[0],Question[1],Question[2],Question[3],Question[4]);
+                      snprintf(str2,17,"%c  %c  %c  %c  %c",Question[5],Question[6],Question[7],Question[8],Question[9]);
+                      printf("str1 : %c %c %c %c %c\r\nstr2 : %c %c %c %c %c\r\n",Question[0],Question[1],Question[2],Question[3],Question[4],Question[5],Question[6],Question[7],Question[8],Question[9]);
+                    usleep(10);
+                    if(Total<=10 && Total>5)     lcdtextwrite(str1,"",1);
+                    else if(Total<=5 && Total>0) lcdtextwrite("",str2,2);
                Total--;
             }
             else ;
@@ -625,12 +644,7 @@ static void* ledTwinkleTHFunc(void*arg){
 }
 
 static void* textlcdTHFunc(void*arg){
-    char str1[17], str2[17];
-    while(1){
-        snprintf(str1,17,"%c  %c  %c  %c  %c",Question[0],Question[1],Question[2],Question[3],Question[4]);
-        snprintf(str1,17,"%c  %c  %c  %c  %c",Question[5],Question[6],Question[7],Question[8],Question[9]);
-        usleep(100);
-    }
+    ;
 }
 
 //최종실행파일 선언부
@@ -644,6 +658,11 @@ static void game2(void);
 //최종실행파일 구현부
 void start(void){
     
+
+    lcdtextwrite(str1,"",1);
+    lcdtextwrite("",str2,2);
+    fndOff();
+
     //터치하면 질문단계로 넘기기
     pthread_create(&touchTH_ID1, NULL, touchTHFunc1, NULL);
     pthread_detach(touchTH_ID1);
@@ -778,8 +797,8 @@ void Question_2(void){
 
 void game2(void){
     //s <- G <- H <- R
-    int numIterations = 200;    //iteration     (     Ƚ  )
-    int totalTime = 20;         //      ð      
+    int numIterations = 100;    //iteration     (     Ƚ  )
+    int totalTime = 10;         //      ð      
     int delay = totalTime * 1000000 / numIterations;
     int i;
     char filename[50];
@@ -817,6 +836,10 @@ void game2(void){
     
 
     //빗자루 게임 시작
+    pthread_create(&fndCountdownTH_ID, NULL, fndcountdownTHFunc, NULL);
+    pthread_detach(fndCountdownTH_ID);
+
+
     for(i = 0; i < numIterations; i++){
 
         getAccel(gyro);
@@ -956,10 +979,10 @@ void game2(void){
     printf("\n\nScore : %d\n", broomscore);
 
     // 빗자루 게임 종료후 index 값 반영
-    if(0 <= broomscore && broomscore < 50){S = S + 6;}
-    else if(50 <= broomscore && broomscore < 100){G = G + 6;}
-    else if(100 <= broomscore && broomscore < 150){H = H + 6;}
-    else if(150 <= broomscore && broomscore <=200){R = R + 6;}
+    if(0 <= broomscore && broomscore < 25){S = S + 6;}
+    else if(25 <= broomscore && broomscore < 50){G = G + 6;}
+    else if(50 <= broomscore && broomscore < 75){H = H + 6;}
+    else if(75 <= broomscore && broomscore <=100){R = R + 6;}
     else printf("Score calculating error!");
     
     //빗자루 게임 끝 이미지 띄우고 샌즈 음악 끄기

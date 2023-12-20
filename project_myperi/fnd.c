@@ -70,13 +70,34 @@ int fndOff()
 	return 1;
 }
 
-void fndCountdown(int count){
+/*void fndCountdown(int count){
     int i;
     for(i =count; i >=0 ; i--){
     fndDisp(i, 0b0000001);
     sleep(1);
     }
     fndOff();
+}
+*/
+
+void fndCountdown(int count) {
+    int remaining_sec, remaining_ms;
+
+    while (count > 0) {
+        remaining_sec = count; // 초 단위 남은 시간
+        remaining_ms = 0; // 밀리초 단위 남은 시간 (여기서는 사용하지 않음)
+
+        // FND에 남은 시간 표시 (예: 5)
+        fndDisp(remaining_sec, 0b010000); // 밀리초 단위 표시를 위한 두 번째 인자는 선택 사항
+
+        // 1초 대기
+        usleep(1000000);
+
+        // 카운트다운 감소
+        count--;
+    }
+
+    fndOff(); // FND 끄기
 }
 
 /*
