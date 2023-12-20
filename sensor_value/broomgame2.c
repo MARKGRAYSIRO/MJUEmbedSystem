@@ -204,13 +204,6 @@ int main() {
         usleep(delay);
     }
 
-<<<<<<< Updated upstream
-    //Game ended. Printing result
-    //printf("\n\nScore : %d\n", broomscore);
-    bmp_read("./gameimage/game2_start.bmp");
-
-    return 0;
-=======
     // Game ended. Printing result
     printf("\n\nScore : %d\n", broomscore);
     // index updates
@@ -219,7 +212,6 @@ int main() {
     else if(50 <= broomscore && broomscore < 75){H = H + 6;}
     else if(75 <= broomscore && broomscore < 100){R = R + 6;}
     else printf("Score calculating error!");
->>>>>>> Stashed changes
 
     return 0;
 }
