@@ -210,10 +210,6 @@ void pwmLedRainbow(int durationSeconds) {
         delay(durationSeconds * 1000 / (6 * steps));
         }
     }
-
-    //Turn off the LEDs
-    pwmInactiveAll();
-
 }
 
 
