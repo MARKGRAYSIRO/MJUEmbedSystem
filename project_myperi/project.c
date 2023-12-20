@@ -844,7 +844,7 @@ void game2(void){
     fndCountdown(10);
     bmp_read("./groomimage/broom_0.bmp");
 
-    counterdownnum = 24;
+    counterdownnum = 23;
 
     //빗자루 게임 시작
     pthread_create(&fndCountdownTH_ID, NULL, fndcountdownTHFunc, NULL);

@@ -80,7 +80,21 @@ int fndOff()
 }
 */
 
-void fndCountdown(int count) {
+void fndCountdown(int count){
+   int remaintime;
+   remaintime = count *1000;
+   int i=0;
+   for(i=remaintime; i>0; i--){
+    usleep(1000);
+    remaintime--;
+    fndDisp(remaintime, 0b000100);
+   }
+
+ fndOff(); // FND 끄기
+
+}
+
+/*void fndCountdown(int count) {
     int remaining_sec, remaining_ms;
 
     while (count > 0) {
