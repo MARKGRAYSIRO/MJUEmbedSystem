@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "colorled.c"
 #include "lcdtext.h"
 #include "temperature.h"
 #include "fnd.h"
@@ -34,7 +35,7 @@ static pthread_t buzzercountdownTH_ID;
 static pthread_t ledCountdownTH_ID;
 static pthread_t fndCountdownTH_ID;
 static pthread_t ledTwinkleTH_ID;
-static pthread_t textlcdTH_ID;
+static pthread_t colorledTH_ID;
 
 //사용할 전역변수 정의
 static int G=0,S=0,H=0,R=0;
@@ -45,6 +46,7 @@ static int tmp=0;
 static char Question[10]={'x','x','x','x','x','x','x','x','x','x'};
 static int Total = 10;
 static char str1[17]="x  x  x  x", str2[17]="x  x  x  x";
+static int colortime = 5;
 
 //쓰레드 선언부
 void* read_jpg_start(void*arg);
@@ -64,7 +66,7 @@ static void* buzzercountdownTHFunc(void*arg);
 static void* ledcountdownTHFunc(void*arg);
 static void* fndcountdownTHFunc(void*arg);
 static void* ledTwinkleTHFunc(void*arg);
-static void* textlcdTHFunc(void*arg);
+static void* colorledTHFunc(void*arg);
 
 //쓰래드 구현부
 void* start_on_onTHFunc(void*arg){
@@ -466,12 +468,13 @@ void* game2_endTHFunc(void*arg){
 
     while(start_on_off){ usleep(1000); }
 
+        
+    pwmLedInit();
+    if(tmp==S)     {snprintf(resultfilename,50,"./resultimage/S.bmp");  pwmLedDorm(1);}
+    else if(tmp==G){snprintf(resultfilename,50,"./resultimage/G.bmp");  pwmLedDorm(2);}
+    else if(tmp==R){snprintf(resultfilename,50,"./resultimage/R.bmp");  pwmLedDorm(3);}
+    else if(tmp==H){snprintf(resultfilename,50,"./resultimage/H.bmp");  pwmLedDorm(4);}
 
-    if(tmp==S)     snprintf(resultfilename,50,"./resultimage/S.bmp");
-    else if(tmp==G)snprintf(resultfilename,50,"./resultimage/G.bmp");
-    else if(tmp==R)snprintf(resultfilename,50,"./resultimage/R.bmp");
-    else if(tmp==H)snprintf(resultfilename,50,"./resultimage/H.bmp");
-       
     bmp_read(resultfilename); // 결과 이미지 뛰우기
 
 }
@@ -612,7 +615,7 @@ void* bmpTHFunc2(void* arg){
         usleep(100000);
         if (leave_Q != lastLeave_Q) {
             switch(leave_Q){
-                case 5: {bmp_read("./Q1image/Q6.bmp"); ledTwinkle(); lastLeave_Q = leave_Q; usleep(1000); break;}
+                case 5: {bmp_read("./Q1image/Q6.bmp"); lastLeave_Q = leave_Q; usleep(1000); break;}
                 case 4: bmp_read("./Q1image/Q7.bmp"); ledTwinkle(); break;
                 case 3: bmp_read("./Q1image/Q8.bmp"); ledTwinkle(); break;
                 case 2: bmp_read("./Q1image/Q9.bmp"); ledTwinkle(); break;
@@ -643,9 +646,14 @@ static void* ledTwinkleTHFunc(void*arg){
     ledTwinkle();
 }
 
-static void* textlcdTHFunc(void*arg){
-    ;
+static void* colorledTHFunc(void*arg){
+    pwmLedInit();
+    pwmLedRainbow(colortime);
+    pwmLedDorm(10);
+    pwmInactiveAll();
+    pthread_exit(NULL);
 }
+
 
 //최종실행파일 선언부
 static void start(void);
@@ -662,6 +670,8 @@ void start(void){
     lcdtextwrite(str1,"",1);
     lcdtextwrite("",str2,2);
     fndOff();
+    pwmActiveAll();
+    pwmLedDorm(0);
 
     //터치하면 질문단계로 넘기기
     pthread_create(&touchTH_ID1, NULL, touchTHFunc1, NULL);
@@ -677,9 +687,7 @@ void start(void){
     pthread_detach(music1TH_ID);
 
     //텍스트LCD 시작 모든 과정이 끝나면 쓰레드 종료시킴 in result func
-    pthread_create(&textlcdTH_ID, NULL, textlcdTHFunc, NULL);
-    pthread_detach(textlcdTH_ID);
-
+ 
     //인트로 jpgAnimation dispaly
     pthread_create(&start_read_jpgTH_ID, NULL, read_jpg_start, NULL);
     pthread_join(start_read_jpgTH_ID, NULL);
@@ -733,6 +741,8 @@ void game1(void){
     //fnd counterdown 5초 생성하기.
     
     //5초동안 부저 led울리기 (측정중)
+    pthread_create(&colorledTH_ID, NULL, colorledTHFunc, NULL);
+    pthread_detach(colorledTH_ID);
     pthread_create(&buzzercountdownTH_ID, NULL, buzzercountdownTHFunc, NULL);
     pthread_detach(buzzercountdownTH_ID);
     pthread_create(&ledCountdownTH_ID, NULL, ledcountdownTHFunc, NULL);
@@ -833,7 +843,8 @@ void game2(void){
     //빗자루 설명 10초간 띄우기
     fndCountdown(10);
     bmp_read("./groomimage/broom_0.bmp");
-    
+
+    counterdownnum = 24;
 
     //빗자루 게임 시작
     pthread_create(&fndCountdownTH_ID, NULL, fndcountdownTHFunc, NULL);
@@ -969,12 +980,10 @@ void game2(void){
                 ++broomscore;bmp_read("./groomimage/broom_20.bmp");
             }
         }
-
         printf("Area : %d\n", area);
         usleep(delay);
     }
 
-    sleep(1);
     // Game ended. Printing result
     printf("\n\nScore : %d\n", broomscore);
 
@@ -1017,7 +1026,6 @@ void result(void){
     else if(tmp==R) snprintf(QRfilename,50, "./QRimage/QRR.bmp");
     else if(tmp==H) snprintf(QRfilename,50, "./QRimage/QRH.bmp");
     bmp_read(QRfilename);   
-    pthread_cancel(textlcdTH_ID);
 }
 
 
