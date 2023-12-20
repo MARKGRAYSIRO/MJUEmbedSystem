@@ -10,5 +10,9 @@ int printGyro(void);
 int getAccel(int* accel);
 int getMag(int* magne);
 int getGyro(int *gyro);
+double custom_atan(double x);
+double custom_atan2(double y, double x);
+double to_degrees(double radians);
+void readGyro(int* gyro);
  
  #endif

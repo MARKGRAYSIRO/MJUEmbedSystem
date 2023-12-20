@@ -4,6 +4,8 @@
 #include <unistd.h>
 #include "accelMagGyro.h"
 
+#define PI 3.14159265358979323846
+
 static int fd = 0;
 static FILE *fp = NULL;
 
@@ -68,4 +70,48 @@ int getGyro(int *gyro){
 	fscanf(fp,"%d, %d, %d",&gyro[0],&gyro[1],&gyro[2]);;
 	fclose(fp);
     return 0;
+}
+
+double custom_atan(double x) {
+	    double result = 0;
+        double term = x;
+
+    if (x > 1.0) {
+        return PI / 2 - custom_atan(1 / x);
+    }
+    else if (x < -1.0) {
+        return -PI / 2 - custom_atan(1 / x);
+    }
+
+
+    for (int i = 1; i <= 100; ++i) {
+        if (i % 2 != 0) {
+            result += (i % 4 == 1) ? term : -term;
+        }
+        term *= x * x;
+    }
+    return result;
+}
+
+double custom_atan2(double y, double x) {
+    if (x > 0) return custom_atan(y / x);
+    if (y >= 0 && x < 0) return custom_atan(y / x) + PI;
+    if (y < 0 && x < 0) return custom_atan(y / x) - PI;
+    if (y > 0 && x == 0) return PI / 2;
+    if (y < 0 && x == 0) return -PI / 2;
+    return 0; // In case x and y are both zero
+}
+
+double to_degrees(double radians) {
+    double degrees = radians * (180.0 / PI);
+    if (degrees < 0) {
+        degrees += 360.0;
+    }
+    return degrees;
+}
+
+void readGyro(int* gyro) {
+    if (getAccel(gyro) != 0) {
+        printf("Failed to get gyroscope values.\n");
+    }
 }

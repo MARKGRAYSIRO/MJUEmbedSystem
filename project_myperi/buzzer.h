@@ -6,5 +6,6 @@ int buzzerPlaySong(int scale);
 int buzzerStopSong(void);
 int buzzerExit(void);
 void buzzerCountdown(int count);
+void beat(float beat);
 
 #endif

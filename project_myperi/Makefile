@@ -1,6 +1,5 @@
 all: project.elf
 
-
 project.elf: project.c libMyperi.a libjpeg.a libmylib.a
 	arm-linux-gnueabi-gcc project.c -o project.elf -lMyperi -L. -pthread -ljpeg -L. -lmylib
 
