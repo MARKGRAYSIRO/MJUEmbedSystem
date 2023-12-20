@@ -29,35 +29,35 @@ void rest(float beat) {
 int main() {
     buzzerInit();
     
-    buzzerPlaySong2(1);
+    buzzerPlaySong3(1);
     beat(1);
-    buzzerPlaySong2(2);
+    buzzerPlaySong3(2);
     beat(1);
-    buzzerPlaySong2(3);
+    buzzerPlaySong3(3);
     beat(1.9);
     rest(0.1);
     
-    buzzerPlaySong2(4);
+    buzzerPlaySong3(4);
     beat(0.3);
     rest(0.03);
-    buzzerPlaySong2(4);
+    buzzerPlaySong3(4);
     beat(0.3);
     rest(0.03);
-    buzzerPlaySong2(4);
-    beat(0.3);
-    rest(0.03);
-    
-    buzzerPlaySong2(5);
-    beat(0.3);
-    rest(0.03);
-    buzzerPlaySong2(5);
-    beat(0.3);
-    rest(0.03);
-    buzzerPlaySong2(4);
+    buzzerPlaySong3(4);
     beat(0.3);
     rest(0.03);
     
-    buzzerPlaySong2(1);
+    buzzerPlaySong3(5);
+    beat(0.3);
+    rest(0.03);
+    buzzerPlaySong3(5);
+    beat(0.3);
+    rest(0.03);
+    buzzerPlaySong3(4);
+    beat(0.3);
+    rest(0.03);
+    
+    buzzerPlaySong3(1);
     beat(2);
     
     buzzerStopSong();
