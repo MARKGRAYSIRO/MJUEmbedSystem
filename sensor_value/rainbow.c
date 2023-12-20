@@ -187,7 +187,7 @@ int disable(int rgb) {
     return 1;
 }
 
-int pwmLedRainbow(void) {
+void pwmLedRainbow(int durationSeconds) {
     int colors[6][3] = {
         //빛의 3원색
         {100, 0, 0},    // Red
@@ -227,7 +227,7 @@ int pwmLedInit(void) {
     pwmSetPeriod(PWM_PERIOD_NS, 2);
     pwmStartAll();
 
-    pwmLedRainbow(); // Call the rainbow effect
+    pwmLedRainbow(5); // Call the rainbow effect
     return 0;
 }
 
