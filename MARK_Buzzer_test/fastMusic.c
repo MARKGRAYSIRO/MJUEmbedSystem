@@ -13,7 +13,7 @@
 #include <pthread.h>
 #include "buzzer.h"
 
-#define BPM  400000;
+#define BPM  100000;
 
 
 void rest(float beat) {
@@ -27,9 +27,8 @@ void beat(float beat) {
     usleep(usecond);
 }
 
-int main() {
-    buzzerInit();
-    
+
+void frontLine() {
     buzzerPlaySong2(6);
     beat(0.4);
     rest(0.1);
@@ -62,8 +61,8 @@ int main() {
     buzzerPlaySong2(9);
     beat(0.5);
     buzzerPlaySong2(10);
-    beat(0.5);
-    rest(0.5);
+    beat(0.4);
+    rest(0.1);
     
     //2마디
     buzzerPlaySong2(4);
@@ -98,8 +97,8 @@ int main() {
     buzzerPlaySong2(9);
     beat(0.5);
     buzzerPlaySong2(10);
-    beat(0.5);
-    rest(0.5);
+    beat(0.4);
+    rest(0.1);
     
     //3마디
     buzzerPlaySong2(3);
@@ -134,8 +133,8 @@ int main() {
     buzzerPlaySong2(9);
     beat(0.5);
     buzzerPlaySong2(10);
-    beat(0.5);
-    rest(0.5);
+    beat(0.4);
+    rest(0.1);
     
     //4마디
     buzzerPlaySong2(2);
@@ -170,8 +169,17 @@ int main() {
     buzzerPlaySong2(9);
     beat(0.5);
     buzzerPlaySong2(10);
-    beat(0.5);
-    rest(0.5);
+    beat(0.4);
+    rest(0.1);
+}
+
+int main() {
+    buzzerInit();
+    
+    frontLine();
+    frontLine();
+    frontLine();
+    frontLine();
     
     buzzerStopSong();
 }
