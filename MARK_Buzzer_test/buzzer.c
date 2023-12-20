@@ -7,17 +7,22 @@
 #include "buzzer.h"
 
 #define MAX_SCALE_STEP          18
+
 #define BUZZER_BASE_SYS_PATH    "/sys/bus/platform/devices/peribuzzer."
 #define BUZZER_ENABLE_NAME      "enable"
 #define BUZZER_FREQUENCY_NAME   "frequency"
+int songtype = 0;
 char gBuzzerBaseSysDir[128];
 const int musicScale[MAX_SCALE_STEP] =
-{// 샌즈용 도 ~ 솔
-    262,277,294,311,330,349,370,392,415,440,466,494,523,554,587,622,233
+{// 라# ~ 레# 해리포터용 음계
+    247,262, 277,294,311,330,349,370,392,415,440,466,494,523,554,587,622,233
 };
-//{ 해리포터 용
-//    247,262, 277,294,311,330,349,370,392,415,440,466,494,523,554,587,622,233
-//};
+
+const int musicScale2[MAX_SCALE_STEP] =
+{// 아래 시 ~ 미 센즈 용 음계
+    123,131, 139, 147, 156, 165, 175, 185, 196, 208, 220, 233, 247, 261, 277, 294, 311, 330
+};
+
 
 
 
@@ -69,6 +74,14 @@ void buzzerEnable(int en){
 int buzzerPlaySong(int scale){
     char strshellcmd[150];
     sprintf(strshellcmd, "echo '%d' > %s%s\n", musicScale[scale-1], gBuzzerBaseSysDir, BUZZER_FREQUENCY_NAME);
+    system(strshellcmd);
+    buzzerEnable(1);
+    return 0;
+}
+
+int buzzerPlaySong2(int scale){
+    char strshellcmd[150];
+    sprintf(strshellcmd, "echo '%d' > %s%s\n", musicScale2[scale-1], gBuzzerBaseSysDir, BUZZER_FREQUENCY_NAME);
     system(strshellcmd);
     buzzerEnable(1);
     return 0;

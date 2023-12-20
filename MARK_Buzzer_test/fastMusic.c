@@ -13,204 +13,167 @@
 #include <pthread.h>
 #include "buzzer.h"
 
-//1 시 2 도 3도# 4레 5레# 6미 7파 8파# 9솔 10솔# 11라 12라# 13시 14도 15도# 16레 17레#
-//18 아래시
+#define BPM = 400000;
 
+
+void rest(float beat) {
+    int usecond = beat * BPM;
+    buzzerEnable(0);
+    usleep(usecond);
+    buzzerEnable(1);
+}
 void beat(float beat) {
-    int usecond = beat * 500000;
+    int usecond = beat * BPM;
     usleep(usecond);
 }
 
 int main() {
     buzzerInit();
     
-    buzzerPlaySong(1);
-    beat(1);
+    buzzerPlaySong2(6);
+    beat(0.4);
+    rest(0.1);
+    buzzerPlaySong2(6);
+    beat(0.4);
+    rest(0.1);
+    buzzerPlaySong2(18);
+    beat(0.4);
+    rest(0.6);
+    buzzerPlaySong2(13);
+    beat(0.4);
+    rest(0.6);
     
-    buzzerPlaySong(6);
-    beat(1.5);
-    buzzerPlaySong(9);
+    
+    rest(0.5);
+    buzzerPlaySong2(12);
+    beat(0.4);
+    rest(0.1);
+    
+    rest(0.5);
+    buzzerPlaySong2(11);
+    beat(0.4);
+    rest(0.1);
+    
+    rest(0.5);
+    buzzerPlaySong2(9);
+    beat(1);
+    buzzerPlaySong2(6);
     beat(0.5);
-    buzzerPlaySong(8);
-    beat(1);
-    
-    buzzerPlaySong(6);
-    beat(2);
-    buzzerPlaySong(13);
-    beat(1);
-    
-    buzzerPlaySong(11);
-    beat(3);
-    
-    buzzerPlaySong(8);
-    beat(3);
+    buzzerPlaySong2(9);
+    beat(0.5);
+    buzzerPlaySong2(10);
+    beat(0.5);
+    rest(0.5);
     
     //2마디
-    buzzerPlaySong(6);
-    beat(1.5);
-    buzzerPlaySong(9);
+    buzzerPlaySong2(4);
+    beat(0.4);
+    rest(0.1);
+    buzzerPlaySong2(4);
+    beat(0.4);
+    rest(0.1);
+    buzzerPlaySong2(18);
+    beat(0.4);
+    rest(0.6);
+    buzzerPlaySong2(13);
+    beat(0.4);
+    rest(0.6);
+    
+    
+    rest(0.5);
+    buzzerPlaySong2(12);
+    beat(0.4);
+    rest(0.1);
+    
+    rest(0.5);
+    buzzerPlaySong2(11);
+    beat(0.4);
+    rest(0.1);
+    
+    rest(0.5);
+    buzzerPlaySong2(9);
+    beat(1);
+    buzzerPlaySong2(6);
     beat(0.5);
-    buzzerPlaySong(8);
-    beat(1);
-    
-    buzzerPlaySong(5);
-    beat(2);
-    buzzerPlaySong(8);
-    beat(1);
-    
-    buzzerPlaySong(1);
-    beat(5);
-    buzzerPlaySong(1);
-    beat(1);
+    buzzerPlaySong2(9);
+    beat(0.5);
+    buzzerPlaySong2(10);
+    beat(0.5);
+    rest(0.5);
     
     //3마디
-    buzzerPlaySong(6);
-    beat(1.5);
-    buzzerPlaySong(9);
+    buzzerPlaySong2(3);
+    beat(0.4);
+    rest(0.1);
+    buzzerPlaySong2(3);
+    beat(0.4);
+    rest(0.1);
+    buzzerPlaySong2(18);
+    beat(0.4);
+    rest(0.6);
+    buzzerPlaySong2(13);
+    beat(0.4);
+    rest(0.6);
+    
+    
+    rest(0.5);
+    buzzerPlaySong2(12);
+    beat(0.4);
+    rest(0.1);
+    
+    rest(0.5);
+    buzzerPlaySong2(11);
+    beat(0.4);
+    rest(0.1);
+    
+    rest(0.5);
+    buzzerPlaySong2(9);
+    beat(1);
+    buzzerPlaySong2(6);
     beat(0.5);
-    buzzerPlaySong(8);
-    beat(1);
-    
-    buzzerPlaySong(6);
-    beat(2);
-    buzzerPlaySong(13);
-    beat(1);
-    
-    buzzerPlaySong(16);
-    beat(2);
-    buzzerPlaySong(15);
-    beat(1);
-    
-    buzzerPlaySong(14);
-    beat(2);
-    buzzerPlaySong(10);
-    beat(1);
-    
-     //4마디
-    buzzerPlaySong(14);
-    beat(1.5);
-    buzzerPlaySong(13);
+    buzzerPlaySong2(9);
     beat(0.5);
-    buzzerPlaySong(12);
-    beat(1);
-    
-    buzzerPlaySong(18);
-    beat(2);
-    buzzerPlaySong(9);
-    beat(1);
-    
-    buzzerPlaySong(6);
-    beat(3);
-    
-    buzzerPlaySong(6);
-    beat(2);
-    buzzerPlaySong(9);
-    beat(1);
-    
-    //5마디
-    buzzerPlaySong(13);
-    beat(2);
-    buzzerPlaySong(9);
-    beat(1);
-    
-    buzzerPlaySong(13);
-    beat(2);
-    buzzerPlaySong(9);
-    beat(1);
-    
-    buzzerPlaySong(14);
-    beat(2);
-    buzzerPlaySong(13);
-    beat(1);
-    
-    buzzerPlaySong(12);
-    beat(2);
-    buzzerPlaySong(8);
-    beat(1);
-    
-    //6마디
-    buzzerPlaySong(9);
-    beat(1.5);
-    buzzerPlaySong(13);
+    buzzerPlaySong2(10);
     beat(0.5);
-    buzzerPlaySong(12);
-    beat(1);
+    rest(0.5);
     
-    buzzerPlaySong(18);
-    beat(2);
-    buzzerPlaySong(1);
-    beat(1);
+    //4마디
+    buzzerPlaySong2(2);
+    beat(0.4);
+    rest(0.1);
+    buzzerPlaySong2(2);
+    beat(0.4);
+    rest(0.1);
+    buzzerPlaySong2(18);
+    beat(0.4);
+    rest(0.6);
+    buzzerPlaySong2(13);
+    beat(0.4);
+    rest(0.6);
     
-    buzzerPlaySong(13);
-    beat(5);
-    buzzerPlaySong(9);
-    beat(1);
     
-    //7마디
-    buzzerPlaySong(13);
-    beat(2);
-    buzzerPlaySong(9);
-    beat(1);
+    rest(0.5);
+    buzzerPlaySong2(12);
+    beat(0.4);
+    rest(0.1);
     
-    buzzerPlaySong(13);
-    beat(2);
-    buzzerPlaySong(9);
-    beat(1);
+    rest(0.5);
+    buzzerPlaySong2(11);
+    beat(0.4);
+    rest(0.1);
     
-    buzzerPlaySong(16);
-    beat(2);
-    buzzerPlaySong(15);
+    rest(0.5);
+    buzzerPlaySong2(9);
     beat(1);
-    
-    buzzerPlaySong(14);
-    beat(2);
-    buzzerPlaySong(10);
-    beat(1);
-    
-    //8마디
-    buzzerPlaySong(14);
-    beat(1.5);
-    buzzerPlaySong(13);
+    buzzerPlaySong2(6);
     beat(0.5);
-    buzzerPlaySong(12);
-    beat(1);
-    
-    buzzerPlaySong(18);
-    beat(2);
-    buzzerPlaySong(9);
-    beat(1);
-    
-    buzzerPlaySong(6);
-    beat(6);
+    buzzerPlaySong2(9);
+    beat(0.5);
+    buzzerPlaySong2(10);
+    beat(0.5);
+    rest(0.5);
     
     buzzerStopSong();
 }
-
-//int main(void){
-//    buzzerInit();
-//
-//    buzzerPlaySong(1);
-//    printf("FREQUENCY 1 playing \r\n");
-//    buzzerPlaySong(2);
-//    sleep(1);
-//
-//    printf("FREQUENCY 2 playing \r\n");
-//    buzzerPlaySong(3);
-//    printf("FREQUENCY 3 playing \r\n");
-//    sleep(1);
-//
-//    buzzerPlaySong(4);
-//    printf("FREQUENCY 4 playing \r\n");
-//    sleep(1);
-//
-//    buzzerPlaySong(5);
-//    printf("FREQUENCY 5 playing \r\n");
-//    sleep(1);
-//
-//    buzzerPlaySong(6);
-//    printf("FREQUENCY 6 playing \r\n");
-//    sleep(1);
-//
-//    buzzerStopSong();
-//    printf("stop the buzzer \r\n");
-//}
+// 1시 2 도 3도# 4레 5레# 6미 7파 8파# 9솔 10솔# 11라 12라# 13시 14도 15도# 16레 17레#
+// 18미

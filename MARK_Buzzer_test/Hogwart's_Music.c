@@ -186,31 +186,3 @@ int main() {
     buzzerStopSong();
 }
 
-//int main(void){
-//    buzzerInit();
-//
-//    buzzerPlaySong(1);
-//    printf("FREQUENCY 1 playing \r\n");
-//    buzzerPlaySong(2);
-//    sleep(1);
-//
-//    printf("FREQUENCY 2 playing \r\n");
-//    buzzerPlaySong(3);
-//    printf("FREQUENCY 3 playing \r\n");
-//    sleep(1);
-//
-//    buzzerPlaySong(4);
-//    printf("FREQUENCY 4 playing \r\n");
-//    sleep(1);
-//
-//    buzzerPlaySong(5);
-//    printf("FREQUENCY 5 playing \r\n");
-//    sleep(1);
-//
-//    buzzerPlaySong(6);
-//    printf("FREQUENCY 6 playing \r\n");
-//    sleep(1);
-//
-//    buzzerStopSong();
-//    printf("stop the buzzer \r\n");
-//}
