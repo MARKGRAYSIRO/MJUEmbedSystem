@@ -13,7 +13,7 @@
 #include <pthread.h>
 #include "buzzer.h"
 
-#define BPM  100000;
+#define BPM  250000;
 
 
 void rest(float beat) {
@@ -176,8 +176,6 @@ void frontLine() {
 int main() {
     buzzerInit();
     
-    frontLine();
-    frontLine();
     frontLine();
     frontLine();
     
