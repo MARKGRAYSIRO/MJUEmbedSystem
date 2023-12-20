@@ -7,6 +7,7 @@
 #include "buzzer.h"
 
 #define MAX_SCALE_STEP          18
+#define MAX_SCALE_STEP2         22
 
 #define BUZZER_BASE_SYS_PATH    "/sys/bus/platform/devices/peribuzzer."
 #define BUZZER_ENABLE_NAME      "enable"
@@ -18,9 +19,9 @@ const int musicScale[MAX_SCALE_STEP] =
     247,262, 277,294,311,330,349,370,392,415,440,466,494,523,554,587,622,233
 };
 
-const int musicScale2[MAX_SCALE_STEP] =
+const int musicScale2[MAX_SCALE_STEP2] =
 {// 아래 시 ~ 미 센즈 용 음계
-    123,131, 139, 147, 156, 165, 175, 185, 196, 208, 220, 233, 247, 261, 277, 294, 311, 330
+    123,131, 139, 147, 156, 165, 175, 185, 196, 208, 220, 233, 247, 261, 277, 294, 311, 330, 73, 65, 62, 58
 };
 
 
