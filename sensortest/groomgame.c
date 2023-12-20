@@ -48,8 +48,8 @@ void readGyro(int* gyro) {
 
 int main() {
 
-    int numIterations = 100;    //iteration ����(���� Ƚ��)
-    int totalTime = 10;         //���� �ð� ����
+    int numIterations = 100;    //iteration     (     Ƚ  )
+    int totalTime = 10;         //      ð      
     int delay = totalTime * 1000000 / numIterations;
 
     int gyro[3];
@@ -57,7 +57,7 @@ int main() {
     int broomscore = 0;
     int x = 0;
     int y = 0;
-    
+    double angle =0.0;
 
     // Loop through each set of coordinates
     for (int i = 1; i < numIterations; ++i) {
@@ -68,14 +68,12 @@ int main() {
         x = gyro[0];
         y = gyro[1];
 
-        double result = custom_atan2(y, x);
-        double angle = to_degrees(result);
-
-
         // Define the position on the Cartesian system
         // Divide area by degrees (15 degrees per area)
+        angle = custom_atan2(y, x);
 
         printf("Angle: %f\n", angle);
+
 
         if (x > -1000 && x < 1000 && y > -1000 && y < 1000) {
             area = 0;

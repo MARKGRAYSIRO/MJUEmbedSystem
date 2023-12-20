@@ -6,13 +6,12 @@
 #include <dirent.h>
 #include "buzzer.h"
 
-#define MAX_SCALE_STEP          18
 
+#define MAX_SCALE_STEP          18
 
 #define BUZZER_BASE_SYS_PATH    "/sys/bus/platform/devices/peribuzzer."
 #define BUZZER_ENABLE_NAME      "enable"
 #define BUZZER_FREQUENCY_NAME   "frequency"
-int songtype = 0;
 char gBuzzerBaseSysDir[128];
 const int musicScale[MAX_SCALE_STEP] =
 {// 라# ~ 레# 해리포터용 음계
@@ -28,8 +27,6 @@ const int musicScale3[5] =
 {// 레벨업 효과음 용 음계
     784, 622 , 466, 831, 698
 };
-
-
 
 
 int buzzerInit(void){
@@ -114,10 +111,42 @@ void buzzerCountdown(int count){
     buzzerInit();
     int i =0;
     for(i =0; i< count; i++){
-    buzzerPlaySong(3);
+    buzzerPlaySong(2);
     usleep(100000);
     buzzerStopSong();
     usleep(900000);
     }
+    buzzerPlaySong(6);
+    usleep(100000);
+    buzzerStopSong();
     buzzerExit();
+}
+
+void beat1(float beat) {
+    int usecond = beat * 500000;
+    usleep(usecond);
+}
+
+void beat2(float beat) {
+    int usecond = beat * 300000;
+    usleep(usecond);
+}
+
+void beat3(float beat) {
+    int usecond = beat * 250000;
+    usleep(usecond);
+}
+
+void rest2(float beat) {
+    int usecond = beat * 300000;
+    buzzerEnable(0);
+    usleep(usecond);
+    buzzerEnable(1);
+}
+
+void rest3(float beat) {
+    int usecond = beat * 250000;
+    buzzerEnable(0);
+    usleep(usecond);
+    buzzerEnable(1);
 }
