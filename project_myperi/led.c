@@ -50,3 +50,13 @@ void ledCountdown(int count){
 int ledstatus (void){
     return ledValue;
 }
+
+void ledTwinkle(void){
+    ledLibInit();
+    int i;
+    for(i =0; i<8; i++){
+     ledOnOff(i, 1);
+    }
+    usleep(200000);
+    ledLibExit();
+}

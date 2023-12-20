@@ -23,6 +23,11 @@ const int musicScale2[MAX_SCALE_STEP] =
     123,131, 139, 147, 156, 165, 175, 185, 196, 208, 220, 233, 247, 261, 277, 294, 311, 330
 };
 
+const int musicScale3[5] =
+{// 레벨업 효과음 용 음계
+    784, 622 , 466, 831, 698
+};
+
 
 int buzzerInit(void){
     char str[128];
@@ -77,6 +82,22 @@ int buzzerPlaySong(int scale){
     return 0;
 }
 
+int buzzerPlaySong2(int scale){
+    char strshellcmd[150];
+    sprintf(strshellcmd, "echo '%d' > %s%s\n", musicScale2[scale-1], gBuzzerBaseSysDir, BUZZER_FREQUENCY_NAME);
+    system(strshellcmd);
+    buzzerEnable(1);
+    return 0;
+}
+
+int buzzerPlaySong3(int scale){
+    char strshellcmd[150];
+    sprintf(strshellcmd, "echo '%d' > %s%s\n", musicScale3[scale-1], gBuzzerBaseSysDir, BUZZER_FREQUENCY_NAME);
+    system(strshellcmd);
+    buzzerEnable(1);
+    return 0;
+}
+
 int buzzerStopSong(void){
     buzzerEnable(0);
     return 0;
@@ -90,15 +111,42 @@ void buzzerCountdown(int count){
     buzzerInit();
     int i =0;
     for(i =0; i< count; i++){
-    buzzerPlaySong(3);
+    buzzerPlaySong(2);
     usleep(100000);
     buzzerStopSong();
     usleep(900000);
     }
+    buzzerPlaySong(6);
+    usleep(100000);
+    buzzerStopSong();
     buzzerExit();
 }
 
-void beat(float beat) {
+void beat1(float beat) {
     int usecond = beat * 500000;
     usleep(usecond);
+}
+
+void beat2(float beat) {
+    int usecond = beat * 300000;
+    usleep(usecond);
+}
+
+void beat3(float beat) {
+    int usecond = beat * 250000;
+    usleep(usecond);
+}
+
+void rest2(float beat) {
+    int usecond = beat * 300000;
+    buzzerEnable(0);
+    usleep(usecond);
+    buzzerEnable(1);
+}
+
+void rest3(float beat) {
+    int usecond = beat * 250000;
+    buzzerEnable(0);
+    usleep(usecond);
+    buzzerEnable(1);
 }

@@ -7,5 +7,6 @@ int ledOnOff (int ledNum, int onoff);
 int ledstatus (void);
 int ledLibExit(void);
 void ledCountdown(int count);
+void ledTwinkle(void);
 
 #endif

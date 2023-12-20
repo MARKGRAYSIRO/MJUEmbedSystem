@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "lcdtext.h"
 #include "temperature.h"
 #include "fnd.h"
 #include "accelMagGyro.h"
@@ -18,6 +19,8 @@
 //쓰레드 id 정의
 pthread_t start_read_jpgTH_ID; //f or jpeg files
 static pthread_t music1TH_ID;
+static pthread_t music2TH_ID;
+static pthread_t music3TH_ID;
 static pthread_t start_on_offTH_ID;   // for Q1 start
 static pthread_t game1_startTH_ID;    // for game1 start touch
 static pthread_t game1_endTH_ID;      // for game1 end   touch
@@ -30,6 +33,8 @@ static pthread_t bmpTH_ID_2;          // second Question image
 static pthread_t buzzercountdownTH_ID;
 static pthread_t ledCountdownTH_ID;
 static pthread_t fndCountdownTH_ID;
+static pthread_t ledTwinkleTH_ID;
+static pthread_t textlcdTH_ID;
 
 //사용할 전역변수 정의
 static int G=0,S=0,H=0,R=0;
@@ -37,10 +42,14 @@ static int leave_Q =5;
 static int start_on_off =1;
 static int counterdownnum =0;
 static int tmp=0;
+static char Question[10]={'x','x','x','x','x','x','x','x','x','x'};
+static int Total = 10;
 
 //쓰레드 선언부
 void* read_jpg_start(void*arg);
 static void* music1THFunc(void*arg);
+static void* music2THFunc(void*arg);
+static void* music3THFunc(void*arg);
 static void* start_on_onTHFunc(void*arg);
 static void* game1_startTHFunc(void*arg);
 static void* game1_endTHFunc(void*arg);
@@ -53,6 +62,8 @@ static void* bmpTHFunc2(void* arg);
 static void* buzzercountdownTHFunc(void*arg);
 static void* ledcountdownTHFunc(void*arg);
 static void* fndCountdownTHFunc(void*arg);
+static void* ledTwinkleTHFunc(void*arg);
+static void* textlcdTHFunc(void*arg);
 
 //쓰래드 구현부
 void* start_on_onTHFunc(void*arg){
@@ -66,169 +77,353 @@ void* start_on_onTHFunc(void*arg){
 }
 
 void* music1THFunc(void* arg){
+    buzzerInit();
     while(1){
-     buzzerInit();
-    
     buzzerPlaySong(1);
-    beat(1);
+    beat1(1);
     
     buzzerPlaySong(6);
-    beat(1.5);
+    beat1(1.5);
     buzzerPlaySong(9);
-    beat(0.5);
+    beat1(0.5);
     buzzerPlaySong(8);
-    beat(1);
+    beat1(1);
     
     buzzerPlaySong(6);
-    beat(2);
+    beat1(2);
     buzzerPlaySong(13);
-    beat(1);
+    beat1(1);
     
     buzzerPlaySong(11);
-    beat(3);
+    beat1(3);
     
     buzzerPlaySong(8);
-    beat(3);
+    beat1(3);
     
     //2마디
     buzzerPlaySong(6);
-    beat(1.5);
+    beat1(1.5);
     buzzerPlaySong(9);
-    beat(0.5);
+    beat1(0.5);
     buzzerPlaySong(8);
-    beat(1);
+    beat1(1);
     
     buzzerPlaySong(5);
-    beat(2);
+    beat1(2);
     buzzerPlaySong(8);
-    beat(1);
+    beat1(1);
     
     buzzerPlaySong(1);
-    beat(5);
+    beat1(5);
     buzzerPlaySong(1);
-    beat(1);
+    beat1(1);
     
     //3마디
     buzzerPlaySong(6);
-    beat(1.5);
+    beat1(1.5);
     buzzerPlaySong(9);
-    beat(0.5);
+    beat1(0.5);
     buzzerPlaySong(8);
-    beat(1);
+    beat1(1);
     
     buzzerPlaySong(6);
-    beat(2);
+    beat1(2);
     buzzerPlaySong(13);
-    beat(1);
+    beat1(1);
     
     buzzerPlaySong(16);
-    beat(2);
+    beat1(2);
     buzzerPlaySong(15);
-    beat(1);
+    beat1(1);
     
     buzzerPlaySong(14);
-    beat(2);
+    beat1(2);
     buzzerPlaySong(10);
-    beat(1);
+    beat1(1);
     
      //4마디
     buzzerPlaySong(14);
-    beat(1.5);
+    beat1(1.5);
     buzzerPlaySong(13);
-    beat(0.5);
+    beat1(0.5);
     buzzerPlaySong(12);
-    beat(1);
+    beat1(1);
     
     buzzerPlaySong(18);
-    beat(2);
+    beat1(2);
     buzzerPlaySong(9);
-    beat(1);
+    beat1(1);
     
     buzzerPlaySong(6);
-    beat(3);
+    beat1(3);
     
     buzzerPlaySong(6);
-    beat(2);
+    beat1(2);
     buzzerPlaySong(9);
-    beat(1);
+    beat1(1);
     
     //5마디
     buzzerPlaySong(13);
-    beat(2);
+    beat1(2);
     buzzerPlaySong(9);
-    beat(1);
+    beat1(1);
     
     buzzerPlaySong(13);
-    beat(2);
+    beat1(2);
     buzzerPlaySong(9);
-    beat(1);
+    beat1(1);
     
     buzzerPlaySong(14);
-    beat(2);
+    beat1(2);
     buzzerPlaySong(13);
-    beat(1);
+    beat1(1);
     
     buzzerPlaySong(12);
-    beat(2);
+    beat1(2);
     buzzerPlaySong(8);
-    beat(1);
+    beat1(1);
     
     //6마디
     buzzerPlaySong(9);
-    beat(1.5);
+    beat1(1.5);
     buzzerPlaySong(13);
-    beat(0.5);
+    beat1(0.5);
     buzzerPlaySong(12);
-    beat(1);
+    beat1(1);
     
     buzzerPlaySong(18);
-    beat(2);
+    beat1(2);
     buzzerPlaySong(1);
-    beat(1);
+    beat1(1);
     
     buzzerPlaySong(13);
-    beat(5);
+    beat1(5);
     buzzerPlaySong(9);
-    beat(1);
+    beat1(1);
     
     //7마디
     buzzerPlaySong(13);
-    beat(2);
+    beat1(2);
     buzzerPlaySong(9);
-    beat(1);
+    beat1(1);
     
     buzzerPlaySong(13);
-    beat(2);
+    beat1(2);
     buzzerPlaySong(9);
-    beat(1);
+    beat1(1);
     
     buzzerPlaySong(16);
-    beat(2);
+    beat1(2);
     buzzerPlaySong(15);
-    beat(1);
+    beat1(1);
     
     buzzerPlaySong(14);
-    beat(2);
+    beat1(2);
     buzzerPlaySong(10);
-    beat(1);
+    beat1(1);
     
     //8마디
     buzzerPlaySong(14);
-    beat(1.5);
+    beat1(1.5);
     buzzerPlaySong(13);
-    beat(0.5);
+    beat1(0.5);
     buzzerPlaySong(12);
-    beat(1);
+    beat1(1);
     
     buzzerPlaySong(18);
-    beat(2);
+    beat1(2);
     buzzerPlaySong(9);
-    beat(1);
+    beat1(1);
     
     buzzerPlaySong(6);
-    beat(6);
+    beat1(6);
 
     sleep(3);
+    }
+}
+
+void* music2THFunc(void* arg){
+    buzzerInit();
+    
+    buzzerPlaySong3(1);
+    beat2(1);
+    buzzerPlaySong3(2);
+    beat2(1);
+    buzzerPlaySong3(3);
+    beat2(1.9);
+    rest2(0.1);
+    
+    buzzerPlaySong3(4);
+    beat2(0.3);
+    rest2(0.03);
+    buzzerPlaySong3(4);
+    beat2(0.3);
+    rest2(0.03);
+    buzzerPlaySong3(4);
+    beat2(0.3);
+    rest2(0.03);
+    
+    buzzerPlaySong3(5);
+    beat2(0.3);
+    rest2(0.03);
+    buzzerPlaySong3(5);
+    beat2(0.3);
+    rest2(0.03);
+    buzzerPlaySong3(4);
+    beat2(0.3);
+    rest2(0.03);
+    
+    buzzerPlaySong3(1);
+    beat2(2);
+    
+    buzzerStopSong();
+}
+
+void* music3THFunc(void* arg){
+    buzzerInit();
+    while(1){
+    buzzerPlaySong2(6);
+    beat3(0.4);
+    rest3(0.1);
+    buzzerPlaySong2(6);
+    beat3(0.4);
+    rest3(0.1);
+    buzzerPlaySong2(18);
+    beat3(0.4);
+    rest3(0.6);
+    buzzerPlaySong2(13);
+    beat3(0.4);
+    rest3(0.6);
+    
+    
+    rest3(0.5);
+    buzzerPlaySong2(12);
+    beat3(0.4);
+    rest3(0.1);
+    
+    rest3(0.5);
+    buzzerPlaySong2(11);
+    beat3(0.4);
+    rest3(0.1);
+    
+    rest3(0.5);
+    buzzerPlaySong2(9);
+    beat3(1);
+    buzzerPlaySong2(6);
+    beat3(0.5);
+    buzzerPlaySong2(9);
+    beat3(0.5);
+    buzzerPlaySong2(10);
+    beat3(0.4);
+    rest3(0.1);
+    
+    //2마디
+    buzzerPlaySong2(4);
+    beat3(0.4);
+    rest3(0.1);
+    buzzerPlaySong2(4);
+    beat3(0.4);
+    rest3(0.1);
+    buzzerPlaySong2(18);
+    beat3(0.4);
+    rest3(0.6);
+    buzzerPlaySong2(13);
+    beat3(0.4);
+    rest3(0.6);
+    
+    
+    rest3(0.5);
+    buzzerPlaySong2(12);
+    beat3(0.4);
+    rest3(0.1);
+    
+    rest3(0.5);
+    buzzerPlaySong2(11);
+    beat3(0.4);
+    rest3(0.1);
+    
+    rest3(0.5);
+    buzzerPlaySong2(9);
+    beat3(1);
+    buzzerPlaySong2(6);
+    beat3(0.5);
+    buzzerPlaySong2(9);
+    beat3(0.5);
+    buzzerPlaySong2(10);
+    beat3(0.4);
+    rest3(0.1);
+    
+    //3마디
+    buzzerPlaySong2(3);
+    beat3(0.4);
+    rest3(0.1);
+    buzzerPlaySong2(3);
+    beat3(0.4);
+    rest3(0.1);
+    buzzerPlaySong2(18);
+    beat3(0.4);
+    rest3(0.6);
+    buzzerPlaySong2(13);
+    beat3(0.4);
+    rest3(0.6);
+    
+    
+    rest3(0.5);
+    buzzerPlaySong2(12);
+    beat3(0.4);
+    rest3(0.1);
+    
+    rest3(0.5);
+    buzzerPlaySong2(11);
+    beat3(0.4);
+    rest3(0.1);
+    
+    rest3(0.5);
+    buzzerPlaySong2(9);
+    beat3(1);
+    buzzerPlaySong2(6);
+    beat3(0.5);
+    buzzerPlaySong2(9);
+    beat3(0.5);
+    buzzerPlaySong2(10);
+    beat3(0.4);
+    rest3(0.1);
+    
+    //4마디
+    buzzerPlaySong2(2);
+    beat3(0.4);
+    rest3(0.1);
+    buzzerPlaySong2(2);
+    beat3(0.4);
+    rest3(0.1);
+    buzzerPlaySong2(18);
+    beat3(0.4);
+    rest3(0.6);
+    buzzerPlaySong2(13);
+    beat3(0.4);
+    rest3(0.6);
+    
+    
+    rest3(0.5);
+    buzzerPlaySong2(12);
+    beat3(0.4);
+    rest3(0.1);
+    
+    rest3(0.5);
+    buzzerPlaySong2(11);
+    beat3(0.4);
+    rest3(0.1);
+    
+    rest3(0.5);
+    buzzerPlaySong2(9);
+    beat3(1);
+    buzzerPlaySong2(6);
+    beat3(0.5);
+    buzzerPlaySong2(9);
+    beat3(0.5);
+    buzzerPlaySong2(10);
+    beat3(0.4);
+    rest3(0.1);
     }
 }
 
@@ -250,6 +445,7 @@ void* game2_startTHFunc(void*arg){
     while(start_on_off){ usleep(100); }
     bmp_read("./gameimage/game2_manu.bmp"); 
     //bmp_read(); game2 설명 bmp 파일 넣기
+    usleep(100);
     pthread_exit(NULL);
 }
 
@@ -300,17 +496,72 @@ void* touchTHFunc2(void* arg){
     while (1) {
         msgrcv(msgID2, &recvMsg2, sizeof(recvMsg2) - sizeof(long int), 0, 0);
         if (recvMsg2.keyInput == 999 && recvMsg2.pressed == 1) {
+                    if(Total<=10 && Total>5)     lcdtextwrite(str1,"",1);
+                    else if(Total<=5 && Total>0) lcdtextwrite("",str2,1);
+
             if (recvMsg2.x >= 267 && recvMsg2.x <=400 && recvMsg2.y >= 26 && recvMsg2.y <=574) {            
-               G++; leave_Q--;
+               G++; leave_Q--; 
+               switch(Total){
+                case(10): Question[0] = '1';
+                case(9):  Question[1] = '1';
+                case(8):  Question[2] = '1';
+                case(7):  Question[3] = '1';
+                case(6):  Question[4] = '1';
+                case(5):  Question[5] = '1';
+                case(4):  Question[6] = '1';
+                case(3):  Question[7] = '1';
+                case(2):  Question[8] = '1';
+                case(1):  Question[9] = '1';
+               }
+               Total--;
             }
             else if (recvMsg2.x > 458 && recvMsg2.x <= 593 && recvMsg2.y >= 26 && recvMsg2.y <=574) {
                S++; leave_Q--;
+               switch(Total){
+                case(10): Question[0] = '2';
+                case(9):  Question[1] = '2';
+                case(8):  Question[2] = '2';
+                case(7):  Question[3] = '2';
+                case(6):  Question[4] = '2';
+                case(5):  Question[5] = '2';
+                case(4):  Question[6] = '2';
+                case(3):  Question[7] = '2';
+                case(2):  Question[8] = '2';
+                case(1):  Question[9] = '2';
+               }
+               Total--;
             }
             else if (recvMsg2.x > 650 && recvMsg2.x <= 785 && recvMsg2.y >= 26 && recvMsg2.y <=574) {
                R++; leave_Q--;
+                  switch(Total){
+                case(10): Question[0] = '3';
+                case(9):  Question[1] = '3';
+                case(8):  Question[2] = '3';
+                case(7):  Question[3] = '3';
+                case(6):  Question[4] = '3';
+                case(5):  Question[5] = '3';
+                case(4):  Question[6] = '3';
+                case(3):  Question[7] = '3';
+                case(2):  Question[8] = '3';
+                case(1):  Question[9] = '3';
+               }
+               Total--;
             }
             else if (recvMsg2.x > 843 && recvMsg2.x <= 980 && recvMsg2.y >= 26 && recvMsg2.y <=574) {
                H++; leave_Q--;
+                switch(Total){
+                case(10): Question[0] = '4';
+                case(9):  Question[1] = '4';
+                case(8):  Question[2] = '4';
+                case(7):  Question[3] = '4';
+                case(6):  Question[4] = '4';
+                case(5):  Question[5] = '4';
+                case(4):  Question[6] = '4';
+                case(3):  Question[7] = '4';
+                case(2):  Question[8] = '4';
+                case(1):  Question[9] = '4';
+               }
+               Total--;
             }
             else ;
         }
@@ -324,12 +575,12 @@ void* bmpTHFunc1(void* arg){
         usleep(100000);
         if (leave_Q != lastLeave_Q) {
             switch(leave_Q){
-                case 5: {bmp_read("./Q1image/Q1.bmp"); lastLeave_Q = leave_Q; usleep(1000); break;}
-                case 4: bmp_read("./Q1image/Q2.bmp"); break;
-                case 3: bmp_read("./Q1image/Q3.bmp"); break;
-                case 2: bmp_read("./Q1image/Q4.bmp"); break;
-                case 1: bmp_read("./Q1image/Q5.bmp"); break;
-                case 0: bmp_read("./gameimage/game1_start.bmp"); break;
+                case 5: {bmp_read("./Q1image/Q1.bmp"); ledTwinkle(); lastLeave_Q = leave_Q; usleep(1000); break;}
+                case 4: bmp_read("./Q1image/Q2.bmp"); ledTwinkle(); break;
+                case 3: bmp_read("./Q1image/Q3.bmp"); ledTwinkle(); break;
+                case 2: bmp_read("./Q1image/Q4.bmp"); ledTwinkle(); break;
+                case 1: bmp_read("./Q1image/Q5.bmp"); ledTwinkle(); break;
+                case 0: bmp_read("./gameimage/game1_start.bmp"); ledTwinkle(); break;
             }
             lastLeave_Q = leave_Q;
         }
@@ -342,12 +593,12 @@ void* bmpTHFunc2(void* arg){
         usleep(100000);
         if (leave_Q != lastLeave_Q) {
             switch(leave_Q){
-                case 5: {bmp_read("./Q1image/Q6.bmp"); lastLeave_Q = leave_Q; usleep(1000); break;}
-                case 4: bmp_read("./Q1image/Q7.bmp"); break;
-                case 3: bmp_read("./Q1image/Q8.bmp"); break;
-                case 2: bmp_read("./Q1image/Q9.bmp"); break;
-                case 1: bmp_read("./Q1image/Q10.bmp"); break;
-                case 0: bmp_read("./gameimage/game2_start.bmp"); break;
+                case 5: {bmp_read("./Q1image/Q6.bmp"); ledTwinkle(); lastLeave_Q = leave_Q; usleep(1000); break;}
+                case 4: bmp_read("./Q1image/Q7.bmp"); ledTwinkle(); break;
+                case 3: bmp_read("./Q1image/Q8.bmp"); ledTwinkle(); break;
+                case 2: bmp_read("./Q1image/Q9.bmp"); ledTwinkle(); break;
+                case 1: bmp_read("./Q1image/Q10.bmp"); ledTwinkle(); break;
+                case 0: bmp_read("./gameimage/game2_start.bmp"); ledTwinkle(); break;
             }
             lastLeave_Q = leave_Q;
         }
@@ -369,6 +620,19 @@ void* fndcountdownTHFunc(void *arg){
      pthread_exit(NULL);
 }
 
+static void* ledTwinkleTHFunc(void*arg){
+    ledTwinkle();
+}
+
+static void* textlcdTHFunc(void*arg){
+    char str1[17], str2[17];
+    while(1){
+        snprintf(str1,17,"%c  %c  %c  %c  %c",Question[0],Question[1],Question[2],Question[3],Question[4]);
+        snprintf(str1,17,"%c  %c  %c  %c  %c",Question[5],Question[6],Question[7],Question[8],Question[9]);
+        usleep(100);
+    }
+}
+
 //최종실행파일 선언부
 static void start(void);
 static void Question_1(void);
@@ -380,6 +644,7 @@ static void game2(void);
 //최종실행파일 구현부
 void start(void){
     
+    //터치하면 질문단계로 넘기기
     pthread_create(&touchTH_ID1, NULL, touchTHFunc1, NULL);
     pthread_detach(touchTH_ID1);
 
@@ -387,10 +652,16 @@ void start(void){
     pthread_join(start_on_offTH_ID, NULL);
         touchExit();
     pthread_cancel(touchTH_ID1);
-
+    
+    //해리포터 노래 시작
     pthread_create(&music1TH_ID, NULL, music1THFunc, NULL);
     pthread_detach(music1TH_ID);
 
+    //텍스트LCD 시작 모든 과정이 끝나면 쓰레드 종료시킴 in result func
+    pthread_create(&textlcdTH_ID, NULL, textlcdTHFunc, NULL);
+    pthread_detach(textlcdTH_ID);
+
+    //인트로 jpgAnimation dispaly
     pthread_create(&start_read_jpgTH_ID, NULL, read_jpg_start, NULL);
     pthread_join(start_read_jpgTH_ID, NULL);
     sleep(1);
@@ -400,6 +671,7 @@ void Question_1(void){
 
     leave_Q = 5; 
 
+    //질문 버튼 누르면 하나씩 화면 바뀌고 index값 반영
     pthread_create(&touchTH_ID2, NULL, touchTHFunc2, NULL);
     pthread_detach(touchTH_ID2);
 
@@ -412,11 +684,9 @@ void Question_1(void){
     pthread_cancel(touchTH_ID2);
     pthread_cancel(bmpTH_ID_1);
 
+    //해리포터 노래 끝
     buzzerStopSong();
     pthread_cancel(music1TH_ID);
-    pthread_cancel(music1TH_ID);
-
- 
 }
 
 void game1(void){   
@@ -443,13 +713,14 @@ void game1(void){
     bmp_read("./gameimage/game1_ing.bmp");
     //fnd counterdown 5초 생성하기.
     
+    //5초동안 부저 led울리기 (측정중)
     pthread_create(&buzzercountdownTH_ID, NULL, buzzercountdownTHFunc, NULL);
     pthread_detach(buzzercountdownTH_ID);
     pthread_create(&ledCountdownTH_ID, NULL, ledcountdownTHFunc, NULL);
     pthread_detach(ledCountdownTH_ID);
     sleep(5);
 
-    //5초 후 값 받아 드리기
+    //값 받아 드리기
     getMag(mag);
     temp = getTemp();
 
@@ -471,25 +742,28 @@ void game1(void){
     else if(tempSum>= 25.5 && tempSum < 27.0)R = R + 3;
     else                                     H = H + 3;
 
-
+    //게임 끝 효과음
+    pthread_create(&music2TH_ID, NULL, music2THFunc, NULL);
+    pthread_detach(music2TH_ID);
     start_on_off = 1;
     usleep(100);
 
-
+    //터치 입력받으면 두번째 질문으로 넘어가기
     pthread_create(&touchTH_ID1, NULL, touchTHFunc1, NULL);
     pthread_detach(touchTH_ID1);
     pthread_create(&game1_endTH_ID, NULL, game1_endTHFunc, NULL);
     pthread_join(game1_endTH_ID, NULL);
         touchExit();
     pthread_cancel(touchTH_ID1);
-
 }
 
 void Question_2(void){
     leave_Q = 5; 
+    //해리포터 노래 다시 시작
     pthread_create(&music1TH_ID, NULL, music1THFunc, NULL);
     pthread_detach(music1TH_ID);
     
+    //질문 버튼 누르면 하나씩 화면 바뀌고 index값 반영
     pthread_create(&touchTH_ID2, NULL, touchTHFunc2, NULL);
     pthread_detach(touchTH_ID2);
     pthread_create(&bmpTH_ID_2, NULL, bmpTHFunc2, NULL);
@@ -504,7 +778,7 @@ void Question_2(void){
 
 void game2(void){
     //s <- G <- H <- R
-    int numIterations = 40;    //iteration     (     Ƚ  )
+    int numIterations = 200;    //iteration     (     Ƚ  )
     int totalTime = 20;         //      ð      
     int delay = totalTime * 1000000 / numIterations;
     int i;
@@ -519,6 +793,7 @@ void game2(void){
     
     start_on_off = 1;
     usleep(100);
+
     // 화면 터치되면 다음 게임설명으로 넘어가기.
     pthread_create(&touchTH_ID1, NULL, touchTHFunc1, NULL);
     pthread_detach(touchTH_ID1);
@@ -527,18 +802,21 @@ void game2(void){
         touchExit();
     pthread_cancel(touchTH_ID1);
 
-
+    //해리포터 노래 종료
         buzzerStopSong();
     pthread_cancel(music1TH_ID);
     
 
-    //센즈 읍악
+    //센즈 읍악 시작
+    pthread_create(&music3TH_ID, NULL, music3THFunc, NULL);
+    pthread_detach(music3TH_ID);
 
-    //빗자루 설명
+    //빗자루 설명 10초간 띄우기
     fndCountdown(10);
     bmp_read("./groomimage/broom_0.bmp");
+    
 
-    // Loop through each set of coordinates
+    //빗자루 게임 시작
     for(i = 0; i < numIterations; i++){
 
         getAccel(gyro);
@@ -560,130 +838,143 @@ void game2(void){
         // Divide area by degrees (15 degrees per area)
 
         printf("Angle: %f\n", angle);
-
+        
         if (x > -1000 && x < 1000 && y > -1000 && y < 1000) {
-            area = 0;  bmp_read(".groomimage/broom_0.bmp");        
+            area = 0;  bmp_read("./groomimage/broom_0.bmp");        
         }
         else{
             if (0 <= angle && angle < 15) {
                 area = 1;
-                ++broomscore; bmp_read(".groomimage/broom_1.bmp");
+                ++broomscore;bmp_read("./groomimage/broom_19.bmp");
             }
             else if (15 <= angle && angle < 30) {
                 area = 2;
-                ++broomscore; bmp_read(".groomimage/broom_2.bmp");
+                ++broomscore; bmp_read("./groomimage/broom_18.bmp");
             }
             else if (30 <= angle && angle < 45) {
                 area = 3;
-                ++broomscore; bmp_read(".groomimage/broom_3.bmp");
+                ++broomscore; bmp_read("./groomimage/broom_17.bmp");
             }
             else if (45 <= angle && angle < 60) {
                 area = 4;
-                ++broomscore; bmp_read(".groomimage/broom_4.bmp");
+                ++broomscore; bmp_read("./groomimage/broom_16.bmp");
             }
             else if (60 <= angle && angle < 75) {
                 area = 5;
-                ++broomscore; bmp_read(".groomimage/broom_5.bmp");
+                ++broomscore; bmp_read("./groomimage/broom_15.bmp");
             }
             else if (75 <= angle && angle < 90) {
                 area = 6;
-                ++broomscore;
+                ++broomscore;bmp_read("./groomimage/broom_14.bmp");
             }
             else if (90 <= angle && angle < 105) {
+
                 area = 7;
-                ++broomscore;
+                ++broomscore;bmp_read("./groomimage/broom_13.bmp");
             }
             else if (105 <= angle && angle < 120) {
+
                 area = 8;
-                ++broomscore;
+                ++broomscore;bmp_read("./groomimage/broom_12.bmp");
             }
             else if (120 <= angle && angle < 135) {
+
                 area = 9;
-                ++broomscore;
+                ++broomscore;bmp_read("./groomimage/broom_11.bmp");
             }
             else if (135 <= angle && angle < 150) {
+
                 area = 10;
-                ++broomscore;
+                ++broomscore;bmp_read("./groomimage/broom_10.bmp");
             }
             else if (150 <= angle && angle < 165) {
+
                 area = 11;
-                ++broomscore;
+                ++broomscore;bmp_read("./groomimage/broom_9.bmp");
             }
             else if (165 <= angle && angle < 180) {
+
                 area = 12;
-                ++broomscore;
+                ++broomscore;bmp_read("./groomimage/broom_8.bmp");
             }
             else if (180 <= angle && angle < 195) {
                 area = 13;
-                ++broomscore;
+                ++broomscore;bmp_read("./groomimage/broom_7.bmp");
             }
             else if (195 <= angle && angle < 210) {
                 area = 14;
-                ++broomscore;
+                ++broomscore;bmp_read("./groomimage/broom_6.bmp");
             }
             else if (210 <= angle && angle < 225) {
                 area = 15;
-                ++broomscore;
+                ++broomscore;bmp_read("./groomimage/broom_5.bmp");
             }
             else if (225 <= angle && angle < 240) {
                 area = 16;
-                ++broomscore;
+                ++broomscore;bmp_read("./groomimage/broom_4.bmp");
             }
             else if (240 <= angle && angle < 255) {
                 area = 17;
-                ++broomscore;
+                ++broomscore;bmp_read("./groomimage/broom_3.bmp");
             }
             else if (255 <= angle && angle < 270) {
                 area = 18;
-                ++broomscore;
+                ++broomscore;bmp_read("./groomimage/broom_2.bmp");
             }
             else if (270 <= angle && angle < 285) {
                 area = 19;
-                ++broomscore;
+                ++broomscore;bmp_read("./groomimage/broom_1.bmp");
             }
             else if (285 <= angle && angle < 300) {
                 area = 20;
-                ++broomscore;
+                ++broomscore;bmp_read("./groomimage/broom_24.bmp");
             }
             else if (300 <= angle && angle < 315) {
                 area = 21;
-                ++broomscore;
+                ++broomscore;bmp_read("./groomimage/broom_23.bmp");
             }
             else if (315 <= angle && angle < 330) {
                 area = 22;
-                ++broomscore;
+                ++broomscore;bmp_read("./groomimage/broom_22.bmp");
             }
             else if (330 <= angle && angle < 345) {
                 area = 23;
-                ++broomscore;
+                ++broomscore;bmp_read("./groomimage/broom_21.bmp");
             }
             else if (345 <= angle && angle <= 360) {
                 area = 24;
-                ++broomscore;
+                ++broomscore;bmp_read("./groomimage/broom_20.bmp");
             }
         }
 
         printf("Area : %d\n", area);
-        snprintf(filename,50,"./groomimage/broom_%d.bmp",area);
-        bmp_read(filename);
         usleep(delay);
     }
 
     sleep(1);
     // Game ended. Printing result
     printf("\n\nScore : %d\n", broomscore);
-    // index updates
-    if(0 <= broomscore && broomscore < 10){S = S + 6;}
-    else if(10 <= broomscore && broomscore < 20){G = G + 6;}
-    else if(20 <= broomscore && broomscore < 30){H = H + 6;}
-    else if(30 <= broomscore && broomscore <= 40){R = R + 6;}
-    else printf("Score calculating error!");
 
+    // 빗자루 게임 종료후 index 값 반영
+    if(0 <= broomscore && broomscore < 50){S = S + 6;}
+    else if(50 <= broomscore && broomscore < 100){G = G + 6;}
+    else if(100 <= broomscore && broomscore < 150){H = H + 6;}
+    else if(150 <= broomscore && broomscore <=200){R = R + 6;}
+    else printf("Score calculating error!");
+    
+    //빗자루 게임 끝 이미지 띄우고 샌즈 음악 끄기
     bmp_read("./gameimage/game2_done.bmp");
+        buzzerStopSong();
+    pthread_cancel(music3TH_ID);
 
     start_on_off = 1;
     usleep(1000);
-    // 화면 터치되면 다음 결과화면으로 넘어가기.
+
+    //게임 끝 효과음 
+    pthread_create(&music2TH_ID, NULL, music2THFunc, NULL);
+    pthread_detach(music2TH_ID);
+
+    // 화면 터치되면 인데스 값에 따라 기숙사 배정하기
     pthread_create(&touchTH_ID1, NULL, touchTHFunc1, NULL);
     pthread_detach(touchTH_ID1);
     pthread_create(&game2_endTH_ID, NULL, game2_endTHFunc, NULL);
@@ -697,28 +988,28 @@ void result(void){
     sleep(5);
     char QRfilename[50];
 
-
-    if(tmp==S)     snprintf(QRfilename,50,"./QRimage/QRS.bmp");
-    else if(tmp==G)snprintf(QRfilename,50, "./QRimage/QRG.bmp");
-    else if(tmp==R)snprintf(QRfilename,50, "./QRimage/QRR.bmp");
-    else if(tmp==H)snprintf(QRfilename,50, "./QRimage/QRH.bmp");
-    //bmp_read(QRfilename);   
+    //배정된 기숙사에 따라 부가적인 정보를 담은 QR코드 띄우기
+    if(tmp==S)      snprintf(QRfilename,50,"./QRimage/QRS.bmp");
+    else if(tmp==G) snprintf(QRfilename,50, "./QRimage/QRG.bmp");
+    else if(tmp==R) snprintf(QRfilename,50, "./QRimage/QRR.bmp");
+    else if(tmp==H) snprintf(QRfilename,50, "./QRimage/QRH.bmp");
+    bmp_read(QRfilename);   
+    pthread_cancel(textlcdTH_ID);
 }
 
 
 int main(void){
-    //start();
+    start();
 
-    //Question_1();
+    Question_1();
     
-    //game1();
+    game1();
 
     Question_2();
 
     game2();
 
-   // result();
+    result();
 
-    printf("%d, %d, %d, %d", G, S, R, H);
     return 0;
 }
