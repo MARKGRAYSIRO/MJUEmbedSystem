@@ -8,7 +8,7 @@ int main() {
     }
 
     // Run the rainbow effect for a duration of 10 seconds
-    pwmLedDorm(1);
+    pwmLedDorm(4);
 
     // Optionally, you can turn off the LED after the rainbow effect
     pwmInactiveAll();
