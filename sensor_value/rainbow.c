@@ -212,6 +212,38 @@ void pwmLedRainbow(int durationSeconds) {
     }
 }
 
+void pwmLedDorm(int dorm) {
+    
+    if (dorm == 1) {         // Slytherin (GREEN)
+        pwmSetDuty(0, 0);       // set R 0
+        pwmSetDuty(100, 1);     // set G 100
+        pwmSetDuty(0, 2);       // set B 0       
+    }
+    else if (dorm == 2) {    // Gryffindor (RED)
+        pwmSetDuty(100, 0);     // set R 100
+        pwmSetDuty(0, 1);       // set G 0
+        pwmSetDuty(0, 2);       // set B 0
+    }
+    else if (dorm == 3) {    // Ravenclaw (BLUE)
+        pwmSetDuty(0, 0);       // set R 0
+        pwmSetDuty(0, 1);       // set G 0
+        pwmSetDuty(100, 2);     // set B 100       
+    }
+    else if (dorm == 4) {    // Hufflepuff (YELLOW)
+        pwmSetDuty(100, 0);     // set R 100
+        pwmSetDuty(100, 1);     // set G 100
+        pwmSetDuty(0, 2);       // set B 0        
+    }
+    else {
+        printf("\nInvalid input!\n");
+    }
+
+    pwmSetPeriod(PWM_PERIOD_NS, 0);
+    pwmSetPeriod(PWM_PERIOD_NS, 1);
+    pwmSetPeriod(PWM_PERIOD_NS, 2);
+    
+}
+
 
 int pwmLedInit(void) {
     pwmActiveAll();
@@ -223,7 +255,6 @@ int pwmLedInit(void) {
     pwmSetPeriod(PWM_PERIOD_NS, 2);
     pwmStartAll();
 
-    pwmLedRainbow(5); // Call the rainbow effect
     return 0;
 }
 
