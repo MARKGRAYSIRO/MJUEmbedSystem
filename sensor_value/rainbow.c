@@ -3,6 +3,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
+#include <time.h>
 #include "colorled.h"
 #define COLOR_LED_DEV_R_ "/sys/class/pwm/pwmchip0/"
 #define COLOR_LED_DEV_G_ "/sys/class/pwm/pwmchip1/"
@@ -16,6 +17,14 @@
 #define PWM_COLOR_G 1
 #define PWM_COLOR_B 2
 #define PWM_PERIOD_NS 1000000    //ns. = 1ms = 1khz
+
+
+void delay(int milliseconds) {
+    struct timespec ts;
+    ts.tv_sec = milliseconds / 1000;
+    ts.tv_nsec = (milliseconds % 1000) * 1000000;
+    nanosleep(&ts, NULL);
+}
 
 int pwmActiveAll(void) {
     int fd = 0;
@@ -178,6 +187,36 @@ int disable(int rgb) {
     return 1;
 }
 
+int pwmLedRainbow(void) {
+    int colors[6][3] = {
+        //빛의 3원색
+        {100, 0, 0},    // Red
+        {100, 100, 0},  // Yellow
+        {0, 100, 0},    // Green
+        {0, 100, 100},  // Cyan
+        {0, 0, 100},    // Blue
+        {100, 0, 100}   // Magenta
+    };
+
+    // Transition between colors
+    int steps = 100;
+    int i, j;
+    for (i = 0; i < 6; i++){
+        for (int j = 0; j <= 100; j++) {
+        pwmSetPercent(j * colors[i][0] / 100, PWM_COLOR_R);
+        pwmSetPercent(j * colors[i][1] / 100, PWM_COLOR_G);
+        pwmSetPercent(j * colors[i][2] / 100, PWM_COLOR_B);
+
+        delay(durationSeconds * 1000 / (6 * steps));
+        }
+    }
+
+    //Turn off the LEDs
+    pwmInactiveAll();
+
+}
+
+
 int pwmLedInit(void) {
     pwmActiveAll();
     pwmSetDuty(0, 0); // set R 0
@@ -187,6 +226,8 @@ int pwmLedInit(void) {
     pwmSetPeriod(PWM_PERIOD_NS, 1);
     pwmSetPeriod(PWM_PERIOD_NS, 2);
     pwmStartAll();
+
+    pwmLedRainbow(); // Call the rainbow effect
     return 0;
 }
 
