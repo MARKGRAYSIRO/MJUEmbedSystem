@@ -151,7 +151,167 @@ void* music1THFunc(void* arg){
     beat1(0.5);
     buzzerPlaySong(12);
     beat1(1);
+        //4마디
+    buzzerPlaySong(14);
+    beat1(1.5);
+    buzzerPlaySong(13);
+    beat1(0.5);
+    buzzerPlaySong(12);
+    beat1(1);
     
+    buzzerPlaySong(18);    //4마디
+    buzzerPlaySong(14);
+    beat1(1.5);
+    buzzerPlaySong(13);
+    beat1(0.5);
+    buzzerPlaySong(12);
+    beat1(1);
+    
+    buzzerPlaySong(18);    //4마디
+    buzzerPlaySong(14);
+    beat1(1.5);
+    buzzerPlaySong(13);
+    beat1(0.5);
+    buzzerPlaySong(12);
+    beat1(1);
+    
+    buzzerPlaySong(18);    //4마디
+    buzzerPlaySong(14);
+    beat1(1.5);
+    buzzerPlaySong(13);
+    beat1(0.5);
+    buzzerPlaySong(12);
+    beat1(1);
+    
+    buzzerPlaySong(18);    //4마디
+    buzzerPlaySong(14);
+    beat1(1.5);
+    buzzerPlaySong(13);
+    beat1(0.5);
+    buzzerPlaySong(12);
+    beat1(1);
+    
+    buzzerPlaySong(18);    //4마디
+    buzzerPlaySong(14);
+    beat1(1.5);
+    buzzerPlaySong(13);
+    beat1(0.5);
+    buzzerPlaySong(12);
+    beat1(1);
+    
+    buzzerPlaySong(18);    //4마디
+    buzzerPlaySong(14);
+    beat1(1.5);
+    buzzerPlaySong(13);
+    beat1(0.5);
+    buzzerPlaySong(12);
+    beat1(1);
+    
+    buzzerPlaySong(18);    //4마디
+    buzzerPlaySong(14);
+    beat1(1.5);
+    buzzerPlaySong(13);
+    beat1(0.5);
+    buzzerPlaySong(12);
+    beat1(1);
+    
+    buzzerPlaySong(18);    //4마디
+    buzzerPlaySong(14);
+    beat1(1.5);
+    buzzerPlaySong(13);
+    beat1(0.5);
+    buzzerPlaySong(12);
+    beat1(1);
+    
+    buzzerPlaySong(18);    //4마디
+    buzzerPlaySong(14);
+    beat1(1.5);
+    buzzerPlaySong(13);
+    beat1(0.5);
+    buzzerPlaySong(12);
+    beat1(1);
+    
+    buzzerPlaySong(18);    //4마디
+    buzzerPlaySong(14);
+    beat1(1.5);
+    buzzerPlaySong(13);
+    beat1(0.5);
+    buzzerPlaySong(12);
+    beat1(1);
+    
+    buzzerPlaySong(18);    //4마디
+    buzzerPlaySong(14);
+    beat1(1.5);
+    buzzerPlaySong(13);
+    beat1(0.5);
+    buzzerPlaySong(12);
+    beat1(1);
+    
+    buzzerPlaySong(18);    //4마디
+    buzzerPlaySong(14);
+    beat1(1.5);
+    buzzerPlaySong(13);
+    beat1(0.5);
+    buzzerPlaySong(12);
+    beat1(1);
+    
+    buzzerPlaySong(18);    //4마디
+    buzzerPlaySong(14);
+    beat1(1.5);
+    buzzerPlaySong(13);
+    beat1(0.5);
+    buzzerPlaySong(12);
+    beat1(1);
+    
+    buzzerPlaySong(18);    //4마디
+    buzzerPlaySong(14);
+    beat1(1.5);
+    buzzerPlaySong(13);
+    beat1(0.5);
+    buzzerPlaySong(12);
+    beat1(1);
+    
+    buzzerPlaySong(18);    //4마디
+    buzzerPlaySong(14);
+    beat1(1.5);
+    buzzerPlaySong(13);
+    beat1(0.5);
+    buzzerPlaySong(12);
+    beat1(1);
+    
+    buzzerPlaySong(18);    //4마디
+    buzzerPlaySong(14);
+    beat1(1.5);
+    buzzerPlaySong(13);
+    beat1(0.5);
+    buzzerPlaySong(12);
+    beat1(1);
+    
+    buzzerPlaySong(18);    //4마디
+    buzzerPlaySong(14);
+    beat1(1.5);
+    buzzerPlaySong(13);
+    beat1(0.5);
+    buzzerPlaySong(12);
+    beat1(1);
+    
+    buzzerPlaySong(18);    //4마디
+    buzzerPlaySong(14);
+    beat1(1.5);
+    buzzerPlaySong(13);
+    beat1(0.5);
+    buzzerPlaySong(12);
+    beat1(1);
+    
+    buzzerPlaySong(18);    //4마디
+    buzzerPlaySong(14);
+    beat1(1.5);
+    buzzerPlaySong(13);
+    beat1(0.5);
+    buzzerPlaySong(12);
+    beat1(1);
+    
+    buzzerPlaySong(18);
     buzzerPlaySong(18);
     beat1(2);
     buzzerPlaySong(9);
