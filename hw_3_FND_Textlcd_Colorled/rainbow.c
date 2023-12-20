@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <string.h>
 #include <time.h>
 #include "colorled.h"
-#include <string.h>
 #define COLOR_LED_DEV_R_ "/sys/class/pwm/pwmchip0/"
 #define COLOR_LED_DEV_G_ "/sys/class/pwm/pwmchip1/"
 #define COLOR_LED_DEV_B_ "/sys/class/pwm/pwmchip2/"
@@ -16,7 +16,8 @@
 #define PWM_COLOR_R 0
 #define PWM_COLOR_G 1
 #define PWM_COLOR_B 2
-#define PWM_PERIOD_NS 1000000
+#define PWM_PERIOD_NS 1000000    //ns. = 1ms = 1khz
+
 
 void delay(int milliseconds) {
     struct timespec ts;
@@ -25,25 +26,24 @@ void delay(int milliseconds) {
     nanosleep(&ts, NULL);
 }
 
-
-int pwmActiveAll(void){
+int pwmActiveAll(void) {
     int fd = 0;
     fd = open(COLOR_LED_DEV_R_ PWM_EXPORT, O_WRONLY);
-    if (fd < 0){
+    if (fd < 0) {
         perror("Failed to open device");
         return -1;
     }
     write(fd, &"0", 1);
     close(fd);
     fd = open(COLOR_LED_DEV_G_ PWM_EXPORT, O_WRONLY);
-    if (fd < 0){
+    if (fd < 0) {
         perror("Failed to open device");
         return -1;
     }
     write(fd, &"0", 1);
     close(fd);
     fd = open(COLOR_LED_DEV_B_ PWM_EXPORT, O_WRONLY);
-    if (fd < 0){
+    if (fd < 0) {
         perror("Failed to open device");
         return -1;
     }
@@ -52,76 +52,76 @@ int pwmActiveAll(void){
     return 1;
 }
 
-int pwmInactiveAll(void){
+int pwmInactiveAll(void) {
     int fd = 0;
     fd = open(COLOR_LED_DEV_R_ PWM_UNEXPORT, O_WRONLY);
-    if (fd < 0){
+    if (fd < 0) {
         perror("Failed to open device");
         return -1;
     }
     write(fd, &"0", 1);
     close(fd);
     fd = open(COLOR_LED_DEV_G_ PWM_UNEXPORT, O_WRONLY);
-    if (fd < 0){
+    if (fd < 0) {
         perror("Failed to open device");
         return -1;
     }
     write(fd, &"0", 1);
     close(fd);
     fd = open(COLOR_LED_DEV_B_ PWM_UNEXPORT, O_WRONLY);
-    if (fd < 0){
+    if (fd < 0) {
         perror("Failed to open device");
         return -1;
     }
     write(fd, &"0", 1);
     close(fd);
-    return 1;   
+    return 1;
 }
 
-int pwmSetDuty(int dutyCycle, int pwmIndex){
+int pwmSetDuty(int dutyCycle, int pwmIndex) {
     int fd = 0;
-    switch(pwmIndex){
-        case 0:
-            fd = open(COLOR_LED_DEV_R_ PWM_DUTY, O_WRONLY);
-            break;
-        case 1:
-            fd = open(COLOR_LED_DEV_G_ PWM_DUTY, O_WRONLY);
-            break;
-        case 2:
-            fd = open(COLOR_LED_DEV_B_ PWM_DUTY, O_WRONLY);
-            break;
-        default:
-            fprintf(stderr, "Invalid pwmIndex: %d\n", pwmIndex);
-            return -1;
+    switch (pwmIndex) {
+    case 0:
+        fd = open(COLOR_LED_DEV_R_ PWM_DUTY, O_WRONLY);
+        break;
+    case 1:
+        fd = open(COLOR_LED_DEV_G_ PWM_DUTY, O_WRONLY);
+        break;
+    case 2:
+        fd = open(COLOR_LED_DEV_B_ PWM_DUTY, O_WRONLY);
+        break;
+    default:
+        fprintf(stderr, "Invalid pwmIndex: %d\n", pwmIndex);
+        return -1;
     }
     dprintf(fd, "%d", dutyCycle);
     close(fd);
     return 1;
 }
 
-int pwmSetPeriod(int Period, int pwmIndex){
+int pwmSetPeriod(int Period, int pwmIndex) {
     int fd = 0;
-    switch (pwmIndex){
-        case 0:
-            fd = open(COLOR_LED_DEV_R_ PWM_PERIOD, O_WRONLY);
-            break;
-        case 1:
-            fd = opne(COLOR_LED_DEV_G_ PWM_PERIOD, O_WRONLY);
-            break;
-        case 2:
-            fd = open(COLOR_LED_DEV_B_ PWM_DUTY, O_WRONLY);
-            break;
-        default:
-            fprintf(stderr, "Invalid pwmIndex: %d\n", pwmIndex);
-            return -1;
+    switch (pwmIndex) {
+    case 0:
+        fd = open(COLOR_LED_DEV_R_ PWM_PERIOD, O_WRONLY);
+        break;
+    case 1:
+        fd = open(COLOR_LED_DEV_G_ PWM_PERIOD, O_WRONLY);
+        break;
+    case 2:
+        fd = open(COLOR_LED_DEV_B_ PWM_PERIOD, O_WRONLY);
+        break;
+    default:
+        fprintf(stderr, "Invalid pwmIndex: %d\n", pwmIndex);
+        return -1;
     }
     dprintf(fd, "%d", Period);
     close(fd);
     return 1;
 }
 
-int pwmSetPercent(int percent, int ledColor){
-    if ((percent) < 0 || (percent > 100)){
+int pwmSetPercent(int percent, int ledColor) {
+    if ((percent) < 0 || (percent > 100)) {
         printf("Wrong percent: %d\r\n", percent);
         return 0;
     }
@@ -131,42 +131,30 @@ int pwmSetPercent(int percent, int ledColor){
     return 0;
 }
 
-int pwmStartAll(void){
+int pwmStartAll(void) {
     int fd = 0;
     fd = open(COLOR_LED_DEV_R_ PWM_ENABLE, O_WRONLY);
-    if (fd < 0){
+    if (fd < 0) {
         perror("Failed to open device");
         return -1;
     }
-    write(fd,&"1",1);
+    write(fd, &"1", 1);
     close(fd);
     fd = open(COLOR_LED_DEV_G_ PWM_ENABLE, O_WRONLY);
-    if (fd < 0){
+    if (fd < 0) {
         perror("Failed to open device");
         return -1;
     }
-    write(fd,&"1",1);
+    write(fd, &"1", 1);
     close(fd);
     fd = open(COLOR_LED_DEV_B_ PWM_ENABLE, O_WRONLY);
-    if (fd < 0){
+    if (fd < 0) {
         perror("Failed to open device");
         return -1;
     }
-    write(fd,&"1",1);
+    write(fd, &"1", 1);
     close(fd);
     return 1;
-}
-
-int pwmLedInit(void){
-    pwmActiveAll();
-    pwmSetDuty(0, 0); // set R 0
-    pwmSetDuty(0, 1); // set G 0
-    pwmSetDuty(0, 2); // set B 0
-    pwmSetPeriod(PWM_PERIOD_NS, 0);
-    pwmSetPeriod(PWM_PERIOD_NS, 1);
-    pwmSetPeriod(PWM_PERIOD_NS, 2);
-    pwmStartAll();
-    return 0;
 }
 
 int disable(int rgb) {
@@ -227,3 +215,19 @@ void pwmLedRainbow(int durationSeconds) {
     pwmInactiveAll();
 
 }
+
+
+int pwmLedInit(void) {
+    pwmActiveAll();
+    pwmSetDuty(0, 0); // set R 0
+    pwmSetDuty(0, 1); // set G 0
+    pwmSetDuty(0, 2); // set B 0
+    pwmSetPeriod(PWM_PERIOD_NS, 0);
+    pwmSetPeriod(PWM_PERIOD_NS, 1);
+    pwmSetPeriod(PWM_PERIOD_NS, 2);
+    pwmStartAll();
+
+    pwmLedRainbow(5); // Call the rainbow effect
+    return 0;
+}
+
